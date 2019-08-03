@@ -4,6 +4,8 @@ import numpy as np
 from group_common import GroupEvaluation
 
 n_students = 12
+groups = [1, 2, 3]
+
 init_mapping = np.zeros(n_students, np.int32)
 init_mapping[:4] = 1
 init_mapping[4:8] = 2
@@ -21,12 +23,12 @@ for c in itertools.product(labels, repeat=n_students):
     if not any(c == init_mapping):
         combs.append(c)
 
-gval = GroupEvaluation(foreigners)
+gval = GroupEvaluation(foreigners, groups)
 
 errors = []
 for c in combs:
-    errors.append(gval.error_total([init_mapping] + [c]))
+    errors.append(gval.error_total(np.vstack([init_mapping, c])))
 
-print(errors)
+# print(errors)
 print(min(errors))
 
