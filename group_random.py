@@ -1,13 +1,14 @@
 import numpy as np
 from group_common import GroupEvaluation
 
-n_students = 12
+n_students = 6
 groups = [1, 2, 3]
-foreigners = np.array([0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1], np.int32)
+foreigners = np.array([0, 0, 1, 1, 0, 0], np.int32)#, 0, 1, 1, 1, 0, 1, 1
+assert len(foreigners) == n_students
 
 
 def test():
-    combs = np.stack([np.random.choice(groups, size=2, replace=False) for i in range(n_students)]).transpose()
+    combs = np.stack([np.random.choice(groups, size=2, replace=False) for _ in range(n_students)]).transpose()
     # combs = [
     #     [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3],
     #     [2, 2, 2, 2, 3, 3, 3, 3, 1, 1, 1, 1]
@@ -32,10 +33,16 @@ def test():
             combs = combs_copy
             last_improvement = i
 
-    print(error, sum(error))
-    print(combs)
-    print(last_improvement)
+    return error, last_improvement, combs
 
+
+errors = []
+last_improvements = []
 
 for _ in range(20):
-    test()
+    error, last_improvement, combs = test()
+    errors.append(error)
+    last_improvements.append(last_improvement)
+
+best_error = min([sum(e) for e in errors])
+print(f'best error = {best_error}')

@@ -2,33 +2,29 @@ import itertools
 
 import numpy as np
 from group_common import GroupEvaluation
+from multiprocessing import Pool
+from MeasureTime import MeasureTime
 
-n_students = 12
+
+def run(combs):
+    combs = np.array(combs).transpose()
+    return sum(gval.error_total(combs))
+
+
+n_students = 6
 groups = [1, 2, 3]
-
-init_mapping = np.zeros(n_students, np.int32)
-init_mapping[:4] = 1
-init_mapping[4:8] = 2
-init_mapping[8:12] = 3
-
-foreigners = np.array([0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1], np.int32)
-assert len(init_mapping) == len(foreigners)
-
-labels = [1, 2, 3]
-n_group_opt = n_students / len(labels)
-
-# First, find all possible group assignments
-combs = []
-for c in itertools.product(labels, repeat=n_students):
-    if not any(c == init_mapping):
-        combs.append(c)
-
+foreigners = np.array([0, 0, 1, 1, 0, 0], np.int32)  #, 0, 1, 1, 1, 0, 1
+assert len(foreigners) == n_students
 gval = GroupEvaluation(foreigners, groups)
 
-errors = []
-for c in combs:
-    errors.append(gval.error_total(np.vstack([init_mapping, c])))
+if __name__ == "__main__":
+    comb_student = list(itertools.permutations(groups, 2))
+    print(f'Number of combinations to check: {len(comb_student) ** n_students}')
 
-# print(errors)
-print(min(errors))
+    pool = Pool(6)
+    with MeasureTime():
+        errors = pool.map(run, itertools.product(comb_student, repeat=n_students))
+    pool.close()
+    pool.join()
 
+    print(min(errors))
