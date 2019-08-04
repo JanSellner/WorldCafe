@@ -1,4 +1,6 @@
 import numpy as np
+
+from MeasureTime import MeasureTime
 from group_common import GroupEvaluation
 
 n_students = 6
@@ -39,10 +41,11 @@ def test():
 errors = []
 last_improvements = []
 
-for _ in range(20):
-    error, last_improvement, combs = test()
-    errors.append(error)
-    last_improvements.append(last_improvement)
+with MeasureTime():
+    for _ in range(20):
+        error, last_improvement, combs = test()
+        errors.append(error)
+        last_improvements.append(last_improvement)
 
 best_error = min([sum(e) for e in errors])
 print(f'best error = {best_error}')
