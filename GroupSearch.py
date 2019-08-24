@@ -5,13 +5,11 @@ from MeasureTime import MeasureTime
 
 
 class GroupSearch:
-    def __init__(self, n_groups: int, n_students: int, foreigners: np.ndarray):
+    def __init__(self, n_groups: int, n_students: int, foreigners=None):
         self.groups = np.arange(1, n_groups + 1)
         self.n_students = n_students
-        self.foreigners = foreigners
-        assert len(foreigners) == self.n_students
 
-        self.gval = GroupEvaluation(self.foreigners, self.groups)
+        self.gval = GroupEvaluation(self.groups, self.n_students, foreigners)
 
     def find_best_allocation(self):
         errors = []

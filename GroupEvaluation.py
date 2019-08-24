@@ -3,12 +3,14 @@ from scipy.stats import entropy
 
 
 class GroupEvaluation:
-    def __init__(self, foreigners, groups):
-        self.foreigners = foreigners
-        self.n_students = len(foreigners)
-
+    def __init__(self, groups, n_students, foreigners=None):
         self.groups = groups
+        self.n_students = n_students
         self.opt_group_size = self.n_students / len(self.groups)
+
+        self.foreigners = foreigners
+        if self.foreigners is not None:
+            assert len(self.foreigners) == self.n_students, 'A foreigner state must be given for each student'
 
     # Mapping for the last day
     def add_last_comb(self, combs: np.ndarray):
@@ -83,4 +85,9 @@ class GroupEvaluation:
         if combs.shape[0] == len(self.groups) - 1:
             combs = self.add_last_comb(combs)
 
-        return [self.error_group_sizes(combs), self.error_diffusion(combs), self.error_foreigners(combs)]
+        error = [self.error_group_sizes(combs), self.error_diffusion(combs)]
+
+        if self.foreigners is not None:
+            error.append(self.error_foreigners(combs))
+
+        return error

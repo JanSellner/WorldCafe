@@ -11,9 +11,10 @@ import numpy as np
 def index():
     df = pd.read_csv('example_data.csv')
 
-    # if 'Foreigners' in df:
-    foreigners = df['Foreigner'].to_numpy().astype(np.int32)
-    # TODO: foreigners optional
+    if 'Foreigners' in df:
+        foreigners = df['Foreigner'].to_numpy().astype(np.int32)
+    else:
+        foreigners = None
 
     group_search = GroupSearch(3, len(df), foreigners)
     alloc, error = group_search.find_best_allocation()

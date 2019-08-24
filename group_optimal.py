@@ -15,7 +15,7 @@ n_students = 6
 groups = [1, 2, 3]
 foreigners = np.array([0, 0, 1, 1, 0, 0], np.int32)  #, 0, 1, 1, 1, 0, 1
 assert len(foreigners) == n_students
-gval = GroupEvaluation(foreigners, groups)
+gval = GroupEvaluation(groups, n_students, foreigners)
 
 if __name__ == "__main__":
     comb_student = list(itertools.permutations(groups, 2))
