@@ -8,11 +8,13 @@ class GroupEvaluation:
         self.n_students = len(foreigners)
 
         self.groups = groups
-        self.n_group_opt = self.n_students / len(self.groups)
+        self.opt_group_size = self.n_students / len(self.groups)
 
     # Mapping for the last day
-    def last_comb(self, combs: np.ndarray):
-        return np.apply_along_axis(lambda x: np.setdiff1d(self.groups, x), axis=0, arr=combs)
+    def add_last_comb(self, combs: np.ndarray):
+        last_comb = np.apply_along_axis(lambda x: np.setdiff1d(self.groups, x), axis=0, arr=combs)
+
+        return np.vstack([combs, last_comb])
 
     def error_group_sizes(self, combs: np.ndarray):
         errors = []
@@ -24,11 +26,11 @@ class GroupEvaluation:
                 errors.append(1)
 
             # Use the difference to the optimal solution as error
-            diffs = np.abs(counts - self.n_group_opt)
+            diffs = np.abs(counts - self.opt_group_size)
             # The weakest group size counts (all groups should have an equal number of members)
             diffs = np.max(diffs)
             # Norm to [0;1]
-            errors.append(diffs / self.n_group_opt)
+            errors.append(diffs / self.opt_group_size)
 
         # The group sizes should be good on every day
         return max(errors)
@@ -78,6 +80,7 @@ class GroupEvaluation:
         return max(errors)
 
     def error_total(self, combs: np.ndarray):
-        combs = np.vstack([combs, self.last_comb(combs)])
+        if combs.shape[0] == len(self.groups) - 1:
+            combs = self.add_last_comb(combs)
 
         return [self.error_group_sizes(combs), self.error_diffusion(combs), self.error_foreigners(combs)]
