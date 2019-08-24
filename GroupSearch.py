@@ -1,3 +1,5 @@
+from multiprocessing import Pool, cpu_count
+
 import numpy as np
 
 from GroupEvaluation import GroupEvaluation
@@ -12,24 +14,27 @@ class GroupSearch:
         self.gval = GroupEvaluation(self.groups, self.n_students, foreigners)
 
     def find_best_allocation(self):
-        errors = []
-        last_improvements = []
+        seeds = range(20)
+
+        pool = Pool(cpu_count())
+        with MeasureTime():
+            results = pool.map(self._start_random_walk, seeds)
+        pool.close()
+        pool.join()
+
         best_error = np.inf
         best_combs = None
-
-        with MeasureTime():
-            for _ in range(20):
-                error, last_improvement, combs = self._start_random_walk()
-                errors.append(error)
-                last_improvements.append(last_improvement)
-
-                if sum(error) < best_error:
-                    best_error = sum(error)
-                    best_combs = combs
+        for result in results:
+            error, last_improvement, combs = result
+            error = sum(result[0])
+            if error < best_error:
+                best_error = error
+                best_combs = combs
 
         return self.gval.add_last_comb(best_combs), best_error
 
-    def _start_random_walk(self):
+    def _start_random_walk(self, seed):
+        np.random.seed(seed)
         # Random combination for all students (columns) and all days (rows)
         combs = np.stack([np.random.choice(self.groups, size=2, replace=False) for _ in range(self.n_students)]).transpose()
 
