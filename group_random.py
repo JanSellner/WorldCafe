@@ -1,7 +1,7 @@
 import numpy as np
 
 from MeasureTime import MeasureTime
-from group_common import GroupEvaluation
+from GroupEvaluation import GroupEvaluation
 
 n_students = 6
 groups = [1, 2, 3]

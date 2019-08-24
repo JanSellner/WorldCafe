@@ -1,7 +1,7 @@
 import itertools
 
 import numpy as np
-from group_common import GroupEvaluation
+from GroupEvaluation import GroupEvaluation
 from multiprocessing import Pool
 from MeasureTime import MeasureTime
 
