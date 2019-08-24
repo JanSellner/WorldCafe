@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Group Allocation</title>
+    <style>
+        table {
+            width: 100%;
+            background-color: #FFFFFF;
+            border-collapse: collapse;
+            border-width: 1px;
+            border-color: #7EA8F8;
+            border-style: solid;
+            color: #000000;
+        }
+        td, th {
+            border-width: 1px;
+            border-color: #7EA8F8;
+            border-style: solid;
+            padding: 5px;
+        }
+        thead {
+            background-color: #7EA8F8;
+        }
+        tr:hover > td:not([rowspan]) {
+            background-color: aliceblue;
+        }
+        td[rowspan] {
+            writing-mode: sideways-lr;
+        }
+        tr.separator {
+            height: 10px;
+        }
+
+        input.collapsing {
+            display: none;
+        }
+        label.collapsing {
+            color: #2F6BCF;
+            cursor: pointer;
+        }
+        label.collapsing:hover {
+            text-decoration: underline;
+        }
+        input.collapsing:checked + h2 span:before {
+            content: "hide ▲";
+        }
+        input.collapsing:not(:checked) + h2 span:before {
+            content: "show ▼";
+        }
+        input.collapsing:checked + h2 + div.collapsing {
+            display: block;
+        }
+        input.collapsing:not(:checked) + h2 + div.collapsing {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Group Allocation</h1>
+    {% macro table_day(data) %}
+    <table>
+        <thead>
+            <tr>
+                <th>Group</th>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for group_data in data %}
+                {% for row in group_data.members %}
+                <tr>
+                    {% if loop.index0 == 0 %}
+                    <td rowspan="{{ group_data.members|length }}">{{ group_data.name }}</td>
+                    {% endif %}
+                    {% for value in row %}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+                {% if loop.index != data|length %}
+                <tr class="separator"></tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endmacro %}
+
+    {% for data_day in days %}
+        <input id="collapsing_{{ loop.index0 }}" class="collapsing" type="checkbox" {{ 'checked' if loop.index0 == 0 }} />
+        <h2><label for="collapsing_{{ loop.index0 }}" class="collapsing">Day {{ loop.index }} (<span></span>)</label></h2>
+
+        <div class="collapsing">
+            {{ table_day(data_day) }}
+        </div>
+    {% endfor %}
+</body>
+</html>
