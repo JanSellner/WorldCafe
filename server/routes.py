@@ -45,11 +45,11 @@ def index():
     form = InputDataForm(CombinedMultiDict((request.files, request.form)))
     try:
         if form.validate_on_submit():
-            if form.file.data:
+            if form.selection_type.data == 'text':
+                data = pd.DataFrame(form.users.data.split(), columns=['Name'])
+            elif form.selection_type.data == 'file':
                 file_content = form.file.data.read().decode('utf-8')
                 data = pd.read_csv(StringIO(file_content))
-            elif form.users.data:
-                data = pd.DataFrame(form.users.data.split(), columns=['Name'])
             else:
                 raise ValueError('Please provide either a lists of users or upload a csv file')
 

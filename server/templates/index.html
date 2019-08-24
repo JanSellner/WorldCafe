@@ -55,6 +55,68 @@
             display: none;
         }
 
+        /* based on https://codepen.io/mikestreety/pen/yVNNNm */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .tabs > label {
+            order: 1;
+            display: block;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 50%;
+            text-align: center;
+            cursor: pointer;
+            color: #a2a2a2;
+            background-color: #fbfbfb;
+            transition: background ease 0.2s;
+        }
+        .tabs > label:hover {
+            color: black;
+        }
+        .tabs > .tab {
+            order: 99;
+            flex-grow: 1;
+            width: 100%;
+            display: none;
+            padding: 10px;
+            background: #eee;
+        }
+        .tabs > input[type="radio"] {
+            display: none;
+        }
+        .tabs > input[type="radio"]:checked + label {
+            background: #eee;
+            color: black;
+            font-weight: bold;
+            cursor: initial;
+        }
+        .tabs > input[type="radio"]:checked + label + .tab {
+            display: block;
+        }
+
+        @media (max-width: 45em) {
+            .tabs .tab,
+            .tabs label {
+                order: initial;
+            }
+            .tabs label {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            height: 200px;
+        }
+
         .error {
             color: red;
         }
@@ -71,17 +133,34 @@
         {% endfor %}
         <br />
 
-        {{ form.users.label(title=form.users.description) }}: {{ form.users(title=form.users.description) }}
-        {% for error in form.users.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-        <br />
+        <div class="tabs">
+            <input type="radio" name="selection_type"  value="text" id="tab1" checked="checked">
+            <label for="tab1">Specify users manually</label>
+            <div class="tab">
+                <p>Please enter the names of the students (one per line).</p>
+                {{ form.users.label(title=form.users.description) }}: {{ form.users(title=form.users.description) }}
+                {% for error in form.users.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+                <br />
+            </div>
 
-        {{ form.file.label }}: {{ form.file() }}
-        {% for error in form.file.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-        <br />
+            <input type="radio" name="selection_type" value="file" id="tab2">
+            <label for="tab2">Upload a file</label>
+            <div class="tab">
+                <p>Please upload a valid CSV file according to the following specification:</p>
+                <ul>
+                    <li>Comma (<code>,</code>) as separator.</li>
+                    <li>First row must be a header row.</li>
+                    <li>Optionally, one column can be <q>Foreigner</q> with either <code>true</code> or <code>false</code> values. This is interpreted by the system and it tries to find a solution which equally distributes foreigners and non-foreigners over the days.</li>
+                </ul>
+                {{ form.file.label(title=form.file.description) }}: {{ form.file() }}
+                {% for error in form.file.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+                <br />
+            </div>
+        </div>
 
         {{ form.submit() }}
     </form>
