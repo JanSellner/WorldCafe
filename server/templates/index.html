@@ -3,126 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Group Allocation</title>
-    <style>
-        table {
-            width: 100%;
-            background-color: #FFFFFF;
-            border-collapse: collapse;
-            border-width: 1px;
-            border-color: #7EA8F8;
-            border-style: solid;
-            color: #000000;
-        }
-        td, th {
-            border-width: 1px;
-            border-color: #7EA8F8;
-            border-style: solid;
-            padding: 5px;
-        }
-        thead {
-            background-color: #7EA8F8;
-        }
-        tr:hover > td:not([rowspan]) {
-            background-color: aliceblue;
-        }
-        td[rowspan] {
-            writing-mode: sideways-lr;
-            text-align: center;
-        }
-        tr.separator {
-            height: 10px;
-        }
-
-        input.collapsing {
-            display: none;
-        }
-        label.collapsing {
-            color: #2F6BCF;
-            cursor: pointer;
-        }
-        label.collapsing:hover {
-            text-decoration: underline;
-        }
-        input.collapsing:checked + h2 span:before {
-            content: "hide ▲";
-        }
-        input.collapsing:not(:checked) + h2 span:before {
-            content: "show ▼";
-        }
-        input.collapsing:checked + h2 + div.collapsing {
-            display: block;
-        }
-        input.collapsing:not(:checked) + h2 + div.collapsing {
-            display: none;
-        }
-
-        /* based on https://codepen.io/mikestreety/pen/yVNNNm */
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 500px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .tabs > label {
-            order: 1;
-            display: block;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            width: 50%;
-            text-align: center;
-            cursor: pointer;
-            color: #a2a2a2;
-            background-color: #fbfbfb;
-            transition: background ease 0.2s;
-        }
-        .tabs > label:hover {
-            color: black;
-        }
-        .tabs > .tab {
-            order: 99;
-            flex-grow: 1;
-            width: 100%;
-            display: none;
-            padding: 10px;
-            background: #eee;
-        }
-        .tabs > input[type="radio"] {
-            display: none;
-        }
-        .tabs > input[type="radio"]:checked + label {
-            background: #eee;
-            color: black;
-            font-weight: bold;
-            cursor: initial;
-        }
-        .tabs > input[type="radio"]:checked + label + .tab {
-            display: block;
-        }
-
-        @media (max-width: 45em) {
-            .tabs .tab,
-            .tabs label {
-                order: initial;
-            }
-            .tabs label {
-                width: 100%;
-                margin-right: 0;
-            }
-        }
-
-        textarea {
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-            height: 200px;
-            resize: vertical;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Group Allocation</h1>
@@ -186,7 +67,7 @@
                 {% for row in group_data.members %}
                 <tr>
                     {% if loop.index0 == 0 %}
-                    <td rowspan="{{ group_data.members|length }}">{{ group_data.name }}</td>
+                    <td rowspan="{{ group_data.members|length }}">{{ group_data.name }}<br />({{ group_data.members|length }} members)</td>
                     {% endif %}
                     {% for value in row %}
                     <td>{{ value }}</td>
