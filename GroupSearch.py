@@ -16,11 +16,11 @@ class GroupSearch:
     def find_best_allocation(self):
         seeds = range(20)
 
-        pool = Pool(cpu_count())
         with MeasureTime():
+            pool = Pool(cpu_count())
             results = pool.map(self._start_random_walk, seeds)
-        pool.close()
-        pool.join()
+            pool.close()
+            pool.join()
 
         best_error = np.inf
         best_combs = None

@@ -2,7 +2,7 @@ import itertools
 
 import numpy as np
 from GroupEvaluation import GroupEvaluation
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 from MeasureTime import MeasureTime
 
 
@@ -21,10 +21,10 @@ if __name__ == "__main__":
     comb_student = list(itertools.permutations(groups, 2))
     print(f'Number of combinations to check: {len(comb_student) ** n_students}')
 
-    pool = Pool(6)
     with MeasureTime():
+        pool = Pool(cpu_count())
         errors = pool.map(run, itertools.product(comb_student, repeat=n_students))
-    pool.close()
-    pool.join()
+        pool.close()
+        pool.join()
 
     print(min(errors))
