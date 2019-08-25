@@ -17,8 +17,8 @@
         <br />
 
         <div class="tabs">
-            <input type="radio" name="selection_type"  value="text" id="tab1" checked="checked">
-            <label for="tab1">Specify users manually</label>
+            {{ (form.selection_type|list)[0] }}
+            {{ (form.selection_type|list)[0].label }}
             <div class="tab">
                 <p>Please enter the names of the students (one per line).</p>
                 {{ form.users.label(title=form.users.description) }}: {{ form.users(title=form.users.description) }}
@@ -28,8 +28,8 @@
                 <br />
             </div>
 
-            <input type="radio" name="selection_type" value="file" id="tab2">
-            <label for="tab2">Upload a file</label>
+            {{ (form.selection_type|list)[1] }}
+            {{ (form.selection_type|list)[1].label }}
             <div class="tab">
                 <p>Please upload a valid CSV file according to the following specification:</p>
                 <ul>
