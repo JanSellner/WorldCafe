@@ -31,7 +31,7 @@ class GroupSearch:
                 best_error = error
                 best_combs = combs
 
-        return self.gval.add_last_comb(best_combs), best_error
+        return self.gval.add_last_comb(best_combs)
 
     def _start_random_walk(self, seed):
         np.random.seed(seed)

@@ -12,8 +12,10 @@ class GroupEvaluation:
         if self.foreigners is not None:
             assert len(self.foreigners) == self.n_students, 'A foreigner state must be given for each student'
 
-    # Mapping for the last day
+        self.others = np.empty(self.n_students, dtype=object)
+
     def add_last_comb(self, combs: np.ndarray):
+        # Mapping for the last day
         last_comb = np.apply_along_axis(lambda x: np.setdiff1d(self.groups, x), axis=0, arr=combs)
 
         return np.vstack([combs, last_comb])
@@ -48,13 +50,15 @@ class GroupEvaluation:
                 others_indices.update(np.where(comb == comb[i])[0])
 
             confusions[i] = len(others_indices)
+            self.others[i] = others_indices  # For statistics
 
         # The student with the lowest confusion counts (all should be high)
         return 1 - np.min(confusions) / self.n_students
 
-    def error_foreigners(self, combs:np.ndarray):
+    def error_foreigners(self, combs: np.ndarray):
         errors = []
 
+        # TODO: rename comb to days?
         for comb in combs:
             entropies = []
             for group in self.groups:

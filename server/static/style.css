@@ -28,30 +28,6 @@ tr.separator {
     height: 10px;
 }
 
-/* Collapsing areas */
-input.collapsing {
-    display: none;
-}
-label.collapsing {
-    color: #2F6BCF;
-    cursor: pointer;
-}
-label.collapsing:hover {
-    text-decoration: underline;
-}
-input.collapsing:checked + h2 span:before {
-    content: "hide ▲";
-}
-input.collapsing:not(:checked) + h2 span:before {
-    content: "show ▼";
-}
-input.collapsing:checked + h2 + div.collapsing {
-    display: block;
-}
-input.collapsing:not(:checked) + h2 + div.collapsing {
-    display: none;
-}
-
 /* Simple tabs (based on https://codepen.io/mikestreety/pen/yVNNNm) */
 .tabs {
     display: flex;
@@ -65,6 +41,7 @@ input.collapsing:not(:checked) + h2 + div.collapsing {
     display: block;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-bottom: 0;
     width: 50%;
     text-align: center;
     cursor: pointer;
@@ -108,12 +85,19 @@ input.collapsing:not(:checked) + h2 + div.collapsing {
 textarea {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
     height: 200px;
-    resize: vertical;
 }
 
 /* General */
 .error {
     color: red;
+}
+#member_stats {
+    min-width: 310px;
+    max-width: 800px;
+    height: 500px;
+    margin: 0 auto
+}
+span.tooltip_heading {
+    font-size: 1.1rem;
 }
