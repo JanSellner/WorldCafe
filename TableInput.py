@@ -64,6 +64,8 @@ class TableInput:
         }
 
         if self.foreigners is None:
+            member_stats['meets_others'] = [len(others) for others in gval.others]
+
             return {
                 'error': error,
                 'members': member_stats

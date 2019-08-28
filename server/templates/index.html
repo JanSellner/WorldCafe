@@ -101,18 +101,21 @@
         </li>
         <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
     </ul>
-    {% if 'n_foreigners' in stats %}
     <div id="member_stats"></div>
     <script>
         var member_stats = {{ stats.members|safe }};
         var colors = {};
         for (let i = 0; i < member_stats.names.length; ++i) {
+            {% if 'n_foreigners' in stats %}
             if (member_stats.foreigners[i] === 0) {
                 colors[member_stats.names[i]] = Highcharts.defaultOptions.colors[0];
             }
             else {
                 colors[member_stats.names[i]] = Highcharts.defaultOptions.colors[1];
             }
+            {% else %}
+            colors[member_stats.names[i]] = '#666666';
+            {% endif %}
         }
 
         Highcharts.chart('member_stats', {
@@ -145,16 +148,25 @@
                     stacking: 'normal'
                 }
             },
-            series: [{
-                name: 'Non-Foreigners',
-                data: member_stats['meets_non-foreigners']
-            }, {
-                name: 'Foreigners',
-                data: member_stats['meets_foreigners']
-            }]
+            series: [
+                {% if 'n_foreigners' in stats %}
+                {
+                    name: 'Non-Foreigners',
+                    data: member_stats['meets_non-foreigners']
+                },
+                {
+                    name: 'Foreigners',
+                    data: member_stats['meets_foreigners']
+                }
+                {% else %}
+                {
+                    showInLegend: false,
+                    data: member_stats['meets_others']
+                }
+                {% endif %}
+            ]
         });
     </script>
-    {% endif %}
 
     {% for data_day in table.days %}
         <details {{ 'open' if loop.index0 == 0 }}>
