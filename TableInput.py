@@ -29,13 +29,17 @@ class TableInput:
 
             group_data = []
             for group in group_numbers:
-                _, counts = np.unique(self.foreigners[day_alloc == group], return_counts=True)
-                group_data.append({
+                current_group = {
                     'members': self.df[day_alloc == group].values.tolist(),
-                    'name': f'Group {group}',
-                    'non-foreigners': counts[0],
-                    'foreigners': counts[1]
-                })
+                    'name': f'Group {group}'
+                }
+
+                if self.foreigners is not None:
+                    _, counts = np.unique(self.foreigners[day_alloc == group], return_counts=True)
+                    current_group['non-foreigners'] = counts[0]
+                    current_group['foreigners'] = counts[1]
+
+                group_data.append(current_group)
 
             days.append(group_data)
 
@@ -48,9 +52,6 @@ class TableInput:
         gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)
         error = sum(gval.error_total(self.alloc))
 
-        if self.foreigners is None:
-            return {'error': error}
-
         if 'First Name' in self.df and 'Family Name':
             names = (self.df['First Name'] + ' ' + self.df['Family Name']).tolist()
         elif 'Name' in self.df:
@@ -59,21 +60,29 @@ class TableInput:
             names = [f'Student {i}' for i in range(len(self.df))]
 
         member_stats = {
-            'names': names,
-            'foreigners': self.foreigners.tolist(),
-            'meets_non-foreigners': [],
-            'meets_foreigners': []
+            'names': names
         }
-        for others in gval.others:
-            _, counts = np.unique(self.foreigners[list(others)], return_counts=True)
-            member_stats['meets_non-foreigners'].append(counts[0])
-            member_stats['meets_foreigners'].append(counts[1])
 
-        _, counts = np.unique(self.foreigners, return_counts=True)
+        if self.foreigners is None:
+            return {
+                'error': error,
+                'members': member_stats
+            }
+        else:
+            member_stats['foreigners'] = self.foreigners.tolist()
+            member_stats['meets_non-foreigners'] = []
+            member_stats['meets_foreigners'] = []
 
-        return {
-            'error': error,
-            'members': member_stats,
-            'n_non-foreigners': counts[0],
-            'n_foreigners': counts[1]
-        }
+            for others in gval.others:
+                _, counts = np.unique(self.foreigners[list(others)], return_counts=True)
+                member_stats['meets_non-foreigners'].append(counts[0])
+                member_stats['meets_foreigners'].append(counts[1])
+
+            _, counts = np.unique(self.foreigners, return_counts=True)
+
+            return {
+                'error': error,
+                'members': member_stats,
+                'n_non-foreigners': counts[0],
+                'n_foreigners': counts[1]
+            }

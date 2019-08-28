@@ -72,7 +72,7 @@
                 {% for row in group_data.members %}
                 <tr>
                     {% if loop.index0 == 0 %}
-                    <td rowspan="{{ group_data.members|length }}" data-tippy-content="<span class='tooltip_heading'>{{ group_data.name }}</span><br />{{ group_data['non-foreigners'] }} non-foreigners<br>{{ group_data['foreigners'] }} foreigners" >{{ group_data.name }}<br />({{ group_data.members|length }} members)</td>
+                    <td rowspan="{{ group_data.members|length }}" data-tippy-content="<span class='tooltip_heading'>{{ group_data.name }}</span>{% if 'foreigners' in group_data %}<br />{{ group_data['non-foreigners'] }} non-foreigners<br>{{ group_data['foreigners'] }} foreigners{% endif %}" >{{ group_data.name }}<br />({{ group_data.members|length }} members)</td>
                     {% endif %}
                     {% for value in row %}
                     <td>{{ value }}</td>
@@ -92,13 +92,16 @@
     <ul>
         <li>
             {{ stats.members.names|length }} students in total
+            {% if 'n_foreigners' in stats %}
             <ul>
                 <li>{{stats['n_non-foreigners']}} non-foreigners</li>
                 <li>{{stats['n_foreigners']}} foreigners</li>
             </ul>
+            {% endif %}
         </li>
         <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
     </ul>
+    {% if 'n_foreigners' in stats %}
     <div id="member_stats"></div>
     <script>
         var member_stats = {{ stats.members|safe }};
@@ -151,6 +154,7 @@
             }]
         });
     </script>
+    {% endif %}
 
     {% for data_day in table.days %}
         <details {{ 'open' if loop.index0 == 0 }}>
