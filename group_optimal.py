@@ -18,7 +18,7 @@ assert len(foreigners) == n_students
 gval = GroupEvaluation(groups, n_students, foreigners)
 
 if __name__ == "__main__":
-    comb_student = list(itertools.permutations(groups, 2))
+    comb_student = list(itertools.permutations(groups, len(groups) - 1))
     print(f'Number of combinations to check: {len(comb_student) ** n_students}')
 
     with MeasureTime():
