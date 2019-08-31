@@ -59,13 +59,14 @@ class TableInput:
         else:
             names = [f'Student {i}' for i in range(len(self.df))]
 
+        meets_others = [len(others) for others in gval.others]
         member_stats = {
-            'names': names
+            'names': names,
+            'meets_others': meets_others,
+            'meets_others_mean': np.round(np.mean(meets_others), 2)
         }
 
         if self.foreigners is None:
-            member_stats['meets_others'] = [len(others) for others in gval.others]
-
             return {
                 'error': error,
                 'members': member_stats
