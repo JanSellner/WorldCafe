@@ -17,7 +17,7 @@ def index():
     try:
         if form.validate_on_submit():
             if form.selection_type.data == 'text':
-                df = pd.DataFrame(form.users.data.split(), columns=['Name'])
+                df = pd.DataFrame(form.users.data.splitlines(), columns=['Name'])
             elif form.selection_type.data == 'file':
                 file_content = form.file.data.read().decode('utf-8')
                 df = pd.read_csv(StringIO(file_content))
