@@ -1,3 +1,6 @@
+import csv
+import io
+
 import numpy as np
 
 from GroupEvaluation import GroupEvaluation
@@ -47,6 +50,24 @@ class TableInput:
             'columns': self.df.columns,
             'days': days
         }
+
+    def csv_table(self, table_data=None):
+        if table_data is None:
+            table_data = self.table_data()
+
+        with io.StringIO() as file:
+            writer = csv.writer(file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+
+            # Header
+            writer.writerow(['Group'] + table_data['columns'].tolist())
+
+            for i, day in enumerate(table_data['days']):
+                writer.writerow([f'Day {i+1}'])
+                for g, group in enumerate(day):
+                    [writer.writerow([f'Group {g+1}'] + row) for row in group['members']]
+
+            file.seek(0)
+            return file.read()
 
     def stats(self):
         gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)

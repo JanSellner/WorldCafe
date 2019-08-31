@@ -5,7 +5,7 @@ from werkzeug.datastructures import CombinedMultiDict
 from io import StringIO
 
 import pandas as pd
-
+import base64
 from TableInput import TableInput
 from server.forms import InputDataForm
 
@@ -25,7 +25,13 @@ def index():
                 raise ValueError('Please provide either a lists of users or upload a csv file')
 
             table_input = TableInput(df, form.n_groups.data)
-            return render_template('index.html', form=form, table=table_input.table_data(), stats=table_input.stats())
+
+            # Generate CSV file data and wrap it in a data URI
+            table_data = table_input.table_data()
+            csv = table_input.csv_table(table_data)
+            csv_base64 = base64.b64encode(csv.encode('utf-8')).decode('utf-8')
+
+            return render_template('index.html', form=form, table=table_data, stats=table_input.stats(), csv_data=csv_base64)
         else:
             return render_template('index.html', form=form)
     except ValueError as error:

@@ -100,6 +100,7 @@
             {% endif %}
         </li>
         <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
+        <li><a download="GroupAllocation.csv" href="data:text/csv;base64,{{ csv_data }}">Download results as CSV file</a></li>
     </ul>
 
     <div id="stats">
