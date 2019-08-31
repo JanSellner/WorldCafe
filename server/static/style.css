@@ -98,6 +98,9 @@ summary {
 .error {
     color: red;
 }
+.warning {
+    color: orange;
+}
 #stats {
     display: flex;
     flex-flow: row wrap;

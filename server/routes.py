@@ -1,12 +1,12 @@
-from server import app
-from flask import render_template
-from flask import request
-from werkzeug.datastructures import CombinedMultiDict
+import base64
 from io import StringIO
 
 import pandas as pd
-import base64
+from flask import render_template, request, flash
+from werkzeug.datastructures import CombinedMultiDict
+
 from TableInput import TableInput
+from server import app
 from server.forms import InputDataForm
 
 
@@ -23,6 +23,12 @@ def index():
                 df = pd.read_csv(StringIO(file_content))
             else:
                 raise ValueError('Please provide either a lists of users or upload a csv file')
+
+            if any(df.duplicated()):
+                flash(f'Duplicate lines found in the input ({str(df[df.duplicated()].iloc[:, 0].tolist())}). Please check whether your input contains some errors. The lines are not removed and the algorithm proceeds as usual.')
+
+            if len(df) == form.n_groups.data:
+                flash('The number of groups equals the number of users. It does not really make sense to run the algorithm in this case since there is only one solution. Please add more users or specify less groups.')
 
             table_input = TableInput(df, form.n_groups.data)
 

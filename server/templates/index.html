@@ -24,7 +24,7 @@
             {{ (form.selection_type|list)[0] }}
             {{ (form.selection_type|list)[0].label }}
             <div class="tab">
-                <p>Please enter the names of the students (one per line).</p>
+                <p>Please enter the names of the users (one per line).</p>
                 {{ form.users.label(title=form.users.description) }}: {{ form.users(title=form.users.description) }}
                 {% for error in form.users.errors %}
                     <span class="error">{{ error }}</span>
@@ -90,8 +90,15 @@
     {% endmacro %}
 
     <ul>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <li class="warning">{{ message }}</li>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
         <li>
-            {{ stats.members.names|length }} students in total
+            {{ stats.members.names|length }} students in total.
             {% if 'n_foreigners' in stats %}
             <ul>
                 <li>{{stats['n_non-foreigners']}} non-foreigners</li>
@@ -100,7 +107,7 @@
             {% endif %}
         </li>
         <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
-        <li><a download="GroupAllocation.csv" href="data:text/csv;base64,{{ csv_data }}">Download results as CSV file</a></li>
+        <li>Download the results as <a download="GroupAllocation.csv" href="data:text/csv;base64,{{ csv_data }}">CSV file</a>.</li>
     </ul>
 
     <div id="stats">
