@@ -3,16 +3,16 @@ from scipy.stats import entropy
 
 
 class GroupEvaluation:
-    def __init__(self, groups, n_students, foreigners=None):
+    def __init__(self, groups, n_users, foreigners=None):
         self.groups = groups
-        self.n_students = n_students
-        self.opt_group_size = self.n_students / len(self.groups)
+        self.n_users = n_users
+        self.opt_group_size = self.n_users / len(self.groups)
 
         self.foreigners = foreigners
         if self.foreigners is not None:
-            assert len(self.foreigners) == self.n_students, 'A foreigner state must be given for each student'
+            assert len(self.foreigners) == self.n_users, 'A foreigner state must be given for each student'
 
-        self.others = np.empty(self.n_students, dtype=object)
+        self.others = np.empty(self.n_users, dtype=object)
         self.counts = None
 
     def add_last_comb(self, days: np.ndarray):
@@ -39,11 +39,11 @@ class GroupEvaluation:
         # The group sizes should be roughly equal
         return np.mean(np.abs(self.counts - self.opt_group_size)) + np.std(self.counts)
 
-    def error_diffusion(self, days: np.ndarray):
-        meets_others = np.zeros(self.n_students)
+    def error_meetings(self, days: np.ndarray):
+        meets_others = np.zeros(self.n_users)
 
         # Count how many other students each student meets (including herself/himself)
-        for i in range(self.n_students):
+        for i in range(self.n_users):
             others_indices = set()
 
             for day in days:
@@ -54,7 +54,7 @@ class GroupEvaluation:
             self.others[i] = others_indices  # For statistics
 
         # Norm to [0; 1]
-        meets_others /= self.n_students
+        meets_others /= self.n_users
 
         # The percentage of other students met should be as high as possible
         # The percentages should be roughly equal
@@ -96,7 +96,7 @@ class GroupEvaluation:
         if days.shape[0] == len(self.groups) - 1:
             days = self.add_last_comb(days)
 
-        error = [self.error_group_sizes(days), self.error_diffusion(days)]
+        error = [self.error_group_sizes(days), self.error_meetings(days)]
 
         if self.foreigners is not None:
             error.append(self.error_foreigners(days))
