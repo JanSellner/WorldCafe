@@ -87,6 +87,13 @@ textarea {
     height: 200px;
 }
 
+/* Detail sections */
+summary {
+    font-weight: bold;
+    margin: -0.5em -0.5em 0;
+    padding: 0.5em;
+}
+
 /* General */
 .error {
     color: red;
