@@ -51,6 +51,7 @@ class TableInput:
     def stats(self):
         gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)
         error = sum(gval.error_total(self.alloc))
+        groups = gval.counts.transpose().tolist()
 
         if 'First Name' in self.df and 'Family Name':
             names = (self.df['First Name'] + ' ' + self.df['Family Name']).tolist()
@@ -69,6 +70,7 @@ class TableInput:
         if self.foreigners is None:
             return {
                 'error': error,
+                'groups': groups,
                 'members': member_stats
             }
         else:
@@ -85,6 +87,7 @@ class TableInput:
 
             return {
                 'error': error,
+                'groups': groups,
                 'members': member_stats,
                 'n_non-foreigners': counts[0],
                 'n_foreigners': counts[1]

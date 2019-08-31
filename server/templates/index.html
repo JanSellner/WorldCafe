@@ -101,20 +101,24 @@
         </li>
         <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
     </ul>
-    <div id="member_stats"></div>
+
+    <div id="stats">
+        <div id="member_stats"></div>
+        <div id="group_stats"></div>
+    </div>
     <script>
-        var member_stats = {{ stats.members|safe }};
+        var memberStats = {{ stats.members|safe }};
         var colors = {};
-        for (let i = 0; i < member_stats.names.length; ++i) {
+        for (let i = 0; i < memberStats.names.length; ++i) {
             {% if 'n_foreigners' in stats %}
-            if (member_stats.foreigners[i] === 0) {
-                colors[member_stats.names[i]] = Highcharts.defaultOptions.colors[0];
+            if (memberStats.foreigners[i] === 0) {
+                colors[memberStats.names[i]] = Highcharts.defaultOptions.colors[0];
             }
             else {
-                colors[member_stats.names[i]] = Highcharts.defaultOptions.colors[1];
+                colors[memberStats.names[i]] = Highcharts.defaultOptions.colors[1];
             }
             {% else %}
-            colors[member_stats.names[i]] = '#666666';
+            colors[memberStats.names[i]] = '#666666';
             {% endif %}
         }
 
@@ -123,10 +127,10 @@
                 type: 'bar'
             },
             title: {
-                text: `How many students does each participant meet? (${member_stats['meets_others_mean']} on average)`
+                text: `How many students does each participant meet? (${memberStats['meets_others_mean']} on average)`
             },
             xAxis: {
-                categories: member_stats['names'],
+                categories: memberStats['names'],
                 labels: {
                     formatter () {
                         return `<span style="color: ${colors[this.value]}">${this.value}</span>`
@@ -143,28 +147,78 @@
             legend: {
                 reversed: true
             },
+            tooltip: {
+                shared: true
+            },
             plotOptions: {
                 series: {
-                    stacking: 'normal'
+                    stacking: 'normal',
+                    states: {
+                        hover: {
+                            brightness: 0.2
+                        }
+                    }
                 }
             },
             series: [
                 {% if 'n_foreigners' in stats %}
                 {
                     name: 'Non-Foreigners',
-                    data: member_stats['meets_non-foreigners']
+                    data: memberStats['meets_non-foreigners']
                 },
                 {
                     name: 'Foreigners',
-                    data: member_stats['meets_foreigners']
+                    data: memberStats['meets_foreigners']
                 }
                 {% else %}
                 {
                     showInLegend: false,
-                    data: member_stats['meets_others']
+                    data: memberStats['meets_others']
                 }
                 {% endif %}
             ]
+        });
+
+        var groupStats = {{ stats.groups|safe }};
+
+        var days = new Array(groupStats.length);
+        var series = [];
+        for (let i = 0; i < days.length; ++i) {
+            days[i] = 'Day ' + (i + 1);
+            series.push({
+                name: 'Group ' + (i + 1),
+                data: groupStats[i]
+            });
+        }
+
+        Highcharts.chart('group_stats', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Group Sizes'
+            },
+            xAxis: {
+                categories: days,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                allowDecimals: false,
+                title: {
+                    text: 'Number of students'
+                }
+            },
+            tooltip: {
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: series
         });
     </script>
 

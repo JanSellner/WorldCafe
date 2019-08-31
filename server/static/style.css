@@ -1,6 +1,5 @@
 /* Table */
 table {
-    width: 100%;
     background-color: #FFFFFF;
     border-collapse: collapse;
     border-width: 1px;
@@ -92,11 +91,17 @@ textarea {
 .error {
     color: red;
 }
-#member_stats {
-    min-width: 310px;
-    max-width: 800px;
+#stats {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+#stats > div {
+    min-width: 300px;
+    max-width: 600px;
     height: 500px;
-    margin: 0 auto
+    flex-grow: 1;
 }
 span.tooltip_heading {
     font-size: 1.1rem;

@@ -12,7 +12,4 @@ if __name__ == '__main__':
     alloc, error = group_search.find_best_allocation()
     print(error)
 
-# TODO: group statistics
 # TODO: example csv file
-# TODO: keep form data (this does currently nor work for the file upload)
-# TODO: deterministic search

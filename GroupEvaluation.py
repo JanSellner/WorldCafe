@@ -13,6 +13,7 @@ class GroupEvaluation:
             assert len(self.foreigners) == self.n_students, 'A foreigner state must be given for each student'
 
         self.others = np.empty(self.n_students, dtype=object)
+        self.counts = None
 
     def add_last_comb(self, days: np.ndarray):
         # Mapping for the last day
@@ -21,7 +22,7 @@ class GroupEvaluation:
         return np.vstack([days, last_day])
 
     def error_group_sizes(self, days: np.ndarray):
-        counts = np.zeros((days.shape[0], len(self.groups)))
+        self.counts = np.zeros((days.shape[0], len(self.groups)))
 
         # Count how many students each group has on each day
         for i, day in enumerate(days):
@@ -30,13 +31,13 @@ class GroupEvaluation:
                 # At least one slot did not get a student at all --> high error
                 return 10
 
-            counts[i, :] = counts_day
+            self.counts[i, :] = counts_day
 
         # Note: the counts values are currently not in the range [0; 1] and hence not directly comparable to the other measures. The counts values tend to be higher which means that they have a higher importance. This is probably not too bad since equal group sizes are favorable in general
 
         # The group sizes should be as close as possible to the optimum
         # The group sizes should be roughly equal
-        return np.mean(np.abs(counts - self.opt_group_size)) + np.std(counts)
+        return np.mean(np.abs(self.counts - self.opt_group_size)) + np.std(self.counts)
 
     def error_diffusion(self, days: np.ndarray):
         meets_others = np.zeros(self.n_students)
