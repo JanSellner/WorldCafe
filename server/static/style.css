@@ -1,7 +1,26 @@
+/* Layout */
+html {
+    background: #A7A7A7;
+}
+body {
+    width: 90%;
+    min-width: 570px;
+    max-width: 1200px;
+    margin: 1em auto;
+    padding: 110px 50px 40px 50px;
+    box-shadow: 0 0 8px 1px #535353;
+    position: relative;
+    text-align: justify;
+    hyphens: auto;
+}
+body > p,
+body > ul {
+    max-width: 600px;
+}
+
 /* Table */
 table {
     background-color: #FFFFFF;
-    border-collapse: collapse;
     border-width: 1px;
     border-color: #7EA8F8;
     border-style: solid;
@@ -27,7 +46,7 @@ tr.separator {
     height: 10px;
 }
 
-/* Simple tabs (based on https://codepen.io/mikestreety/pen/yVNNNm) */
+/* Simple tabs for the form (based on https://codepen.io/mikestreety/pen/yVNNNm) */
 .tabs {
     display: flex;
     flex-wrap: wrap;
@@ -47,6 +66,7 @@ tr.separator {
     color: #a2a2a2;
     background-color: #fbfbfb;
     transition: background ease 0.2s;
+    border-radius: 10px 10px 0 0;
 }
 .tabs > label:hover {
     color: black;
@@ -85,9 +105,20 @@ textarea {
     width: 100%;
     max-width: 100%;
     height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+input[type="number"] {
+    width: 3em;
+}
+form {
+    margin-bottom: 1rem;
 }
 
 /* Detail sections */
+details[open] {
+    margin-bottom: 1rem;
+}
 summary {
     font-weight: bold;
     margin: -0.5em -0.5em 0;
@@ -106,6 +137,7 @@ summary {
     flex-flow: row wrap;
     justify-content: space-around;
     align-items: flex-end;
+    margin-bottom: 1rem;
 }
 #stats > div {
     min-width: 300px;

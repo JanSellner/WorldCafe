@@ -72,7 +72,15 @@ class TableInput:
     def stats(self):
         gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)
         error = sum(gval.error_total(self.alloc))
-        groups = gval.counts.transpose().tolist()
+        group_sizes = gval.counts.transpose().tolist()
+
+        stats = {
+            'error': error,
+            'groups': {
+                'sizes': group_sizes,
+                'sizes_mean': np.round(np.mean(gval.counts), 2)
+            }
+        }
 
         if 'First Name' in self.df and 'Family Name':
             names = (self.df['First Name'] + ' ' + self.df['Family Name']).tolist()
@@ -88,13 +96,7 @@ class TableInput:
             'meets_others_mean': np.round(np.mean(meets_others), 2)
         }
 
-        if self.foreigners is None:
-            return {
-                'error': error,
-                'groups': groups,
-                'members': member_stats
-            }
-        else:
+        if self.foreigners is not None:
             member_stats['foreigners'] = self.foreigners.tolist()
             member_stats['meets_non-foreigners'] = []
             member_stats['meets_foreigners'] = []
@@ -106,10 +108,8 @@ class TableInput:
 
             _, counts = np.unique(self.foreigners, return_counts=True)
 
-            return {
-                'error': error,
-                'groups': groups,
-                'members': member_stats,
-                'n_non-foreigners': counts[0],
-                'n_foreigners': counts[1]
-            }
+            stats['n_non-foreigners'] = counts[0]
+            stats['n_foreigners'] = counts[1]
+
+        stats['members'] = member_stats
+        return stats
