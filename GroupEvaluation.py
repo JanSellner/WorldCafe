@@ -11,6 +11,7 @@ class GroupEvaluation:
         self.foreigners = foreigners
         if self.foreigners is not None:
             assert len(self.foreigners) == self.n_users, 'A foreigner state must be given for each student'
+            self.foreigners = np.asarray(self.foreigners)
 
         self.others = np.empty(self.n_users, dtype=object)
         self.counts = None
