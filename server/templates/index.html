@@ -57,10 +57,22 @@
         </div>
 
         {{ form.submit() }}
+        <script>
+            document.querySelector('form').addEventListener('submit', function () {
+                // Remove any error which may exists
+                const serverError = document.getElementById('server_error');
+                if (serverError !== null) {
+                    serverError.parentNode.removeChild(serverError);
+                }
+            });
+        </script>
+        <label for="progress">Progress:</label>
+        <progress id="progress" value="{{ form.progress_bar }}"></progress>
+        <span id="remaining_time"></span>
     </form>
 
     {% if error %}
-    <p class="error">{{ error }}</p>
+    <p class="error" id="server_error">{{ error }}</p>
     {% endif %}
 
     {% if stats is defined %}
