@@ -14,8 +14,9 @@ body {
     hyphens: auto;
 }
 body > p,
-body > ul {
-    max-width: 600px;
+body > ul,
+body > span {
+    max-width: 600px !important;
 }
 
 /* Table */
@@ -33,7 +34,7 @@ td, th {
     padding: 5px;
 }
 thead {
-    background-color: #7EA8F8;
+    background-color: #DEE9FD;
 }
 tr:hover > td:not([rowspan]) {
     background-color: aliceblue;

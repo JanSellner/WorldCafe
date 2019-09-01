@@ -46,7 +46,7 @@
                 <ul>
                     <li>Comma (<code>,</code>) as separator.</li>
                     <li>First row must be a header row.</li>
-                    <li>Optionally, one column can be <q>Foreigner</q> with either <code>true</code> or <code>false</code> values. This is interpreted by the system and it tries to find a solution which equally distributes foreigners and non-foreigners over the days.</li>
+                    <li>Optionally, one column can be <code>Foreigner</code> with either <code>true</code> or <code>false</code> values. This is interpreted by the system and it tries to find a solution which equally distributes foreigners and non-foreigners over the days.</li>
                 </ul>
                 {{ form.file.label(title=form.file.description) }}: {{ form.file() }}
                 {% for error in form.file.errors %}
@@ -92,7 +92,7 @@
                 {% for row in group_data.members %}
                 <tr>
                     {% if loop.index0 == 0 %}
-                    <td rowspan="{{ group_data.members|length }}" data-tippy-content="<span class='tooltip_heading'>{{ group_data.name }}</span>{% if 'foreigners' in group_data %}<br />{{ group_data['non-foreigners'] }} non-foreigners<br>{{ group_data['foreigners'] }} foreigners{% endif %}" >{{ group_data.name }}<br />({{ group_data.members|length }} members)</td>
+                    <td rowspan="{{ group_data.members|length }}" data-tippy-content="<span class='tooltip_heading'>{{ group_data.name }}</span>{% if 'foreigners' in group_data %}<br />{{ group_data['non-foreigners'] }} non-foreigners<br>{{ group_data['foreigners'] }} foreigners{% endif %}">{{ group_data.name }}<br />({{ group_data.members|length }} members)</td>
                     {% endif %}
                     {% for value in row %}
                     <td>{{ value }}</td>
