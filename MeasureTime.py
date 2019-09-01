@@ -25,4 +25,4 @@ class MeasureTime:
         else:
             tag = ''
 
-        print('%sElapsed time: %d m and %.2f s' % (tag, seconds // 60, seconds % 60))
+        print('%sElapsed time: %d m and %.2f s' % (tag, seconds % 60, seconds // 60))
