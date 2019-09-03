@@ -45,7 +45,10 @@ def index():
                 df = pd.DataFrame(form.users.data.splitlines(), columns=['Name'])
             elif form.selection_type.data == 'file':
                 file_content = form.file.data.read().decode('utf-8')
-                df = pd.read_csv(StringIO(file_content))
+                if file_content:
+                    df = pd.read_csv(StringIO(file_content))
+                else:
+                    df = pd.DataFrame()
             else:
                 raise UserError('Please provide either a lists of users or upload a csv file.')
 
