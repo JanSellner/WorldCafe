@@ -8,6 +8,24 @@
     <script src="{{ url_for('static', filename='highcharts.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='tippy.min.js') }}"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          TeX: { equationNumbers: { autoNumber: "AMS" } }
+        });
+    </script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="{{ url_for('static', filename='socket.io.slim.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io();
+        socket.on('update progress', function (value) {
+            document.getElementById('progress').setAttribute('value', value);
+        });
+        socket.on('update remaining time', function (time) {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            document.getElementById('remaining_time').innerHTML = `Remaining time: ${minutes} m and ${seconds} s`;
+        });
+    </script>
 </head>
 <body>
     <h1>Group Allocation</h1>
@@ -125,7 +143,7 @@
             </ul>
             {% endif %}
         </li>
-        <li>Error: {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
+        <li>Error: \(E(A_*) = \) {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
         <li>Download the results as <a download="GroupAllocation.csv" href="data:text/csv;base64,{{ csv_data }}">CSV file</a>.</li>
     </ul>
 

@@ -11,3 +11,4 @@ class InputDataForm(FlaskForm):
     users = TextAreaField('Users', description='One name per line.')
     file = FileField('File', validators=[FileAllowed(['csv'])], description='CSV file')
     submit = SubmitField('Run!')
+    progress_bar = 0
