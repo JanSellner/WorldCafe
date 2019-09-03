@@ -1,28 +1,56 @@
 import csv
 import io
+import json
+import subprocess
 
 import numpy as np
+import pandas as pd
 
 from GroupEvaluation import GroupEvaluation
-from GroupSearch import GroupSearch
+from JSONNumpyEncoder import JSONNumpyEncoder
+from server import UserError, ServerError
 
 
 class TableInput:
-    def __init__(self, df, n_groups):
+    def __init__(self, df: pd.DataFrame, n_groups: int, listener):
         self.df = df
 
         if len(self.df) < n_groups:
-            raise ValueError('There are not enough students available to fill the groups')
+            raise UserError('There are not enough users available to fill the groups.')
 
         if 'Foreigner' in self.df:
             self.foreigners = self.df['Foreigner'].to_numpy().astype(np.int32)
             if len(self.foreigners) != len(self.df):
-                raise ValueError('A foreigner state must be given for each student')
+                raise UserError('A foreigner state must be given for each user.')
         else:
             self.foreigners = None
 
-        group_search = GroupSearch(n_groups, len(self.df), self.foreigners)
-        self.alloc = group_search.find_best_allocation()
+        # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
+        cmd = ['python', 'group_allocation.py']
+        if self.foreigners is not None:
+            cmd.append('--foreigners')
+            cmd.append(json.dumps(self.foreigners, cls=JSONNumpyEncoder))
+        cmd.append(str(n_groups))
+        cmd.append(str(len(self.df)))
+
+        # Popen works asynchronously (approach inspired by https://stackoverflow.com/a/28319191)
+        with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
+            for line in process.stdout:
+                try:
+                    # The first lines denote the progress
+                    progress = float(line)
+                    listener(progress)
+                except ValueError:
+                    try:
+                        print(line)
+                        # The last line contains the result of the algorithm
+                        self.alloc = np.asarray(json.loads(line))
+                    except json.JSONDecodeError as error:
+                        raise ServerError(ServerError.CODE_RESULT_PARSING, str(error))
+
+            process.wait()
+            if process.returncode != 0:
+                raise ServerError(ServerError.CODE_EXTERNAL_PROGRAM, process.stderr.read())
 
     def table_data(self):
         days = []
@@ -75,7 +103,7 @@ class TableInput:
         group_sizes = gval.counts.transpose().tolist()
 
         stats = {
-            'error': error,
+            'error': round(error, 2),
             'groups': {
                 'sizes': group_sizes,
                 'sizes_mean': np.round(np.mean(gval.counts), 2)
