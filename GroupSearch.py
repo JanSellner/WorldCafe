@@ -26,7 +26,7 @@ class GroupSearch:
 
     def find_best_allocation(self):
         self.n_seeds = 20
-        self.n_iterations = 64
+        self.n_iterations = self.n_users * 2
 
         counter = Value('i', 0)
         seeds = range(self.n_seeds)
