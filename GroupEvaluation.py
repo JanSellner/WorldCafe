@@ -34,11 +34,13 @@ class GroupEvaluation:
 
             self.counts[i, :] = counts_day
 
-        # Note: the counts values are currently not in the range [0; 1] and hence not directly comparable to the other measures. The counts values tend to be higher which means that they have a higher importance. This is probably not too bad since equal group sizes are favorable in general
+        # Apply some basic normalization to make this error more comparable to the other errors
+        # Note: this does not ensure that the normalized values are in the range [0; 1]. But at least good solutions should be in the near vicinity of this range (bad solutions have values > 1 which leads to additional penalization which is probably good since we want equal groups sizes in general)
+        normalized_counts = self.counts / self.opt_group_size
 
         # The group sizes should be as close as possible to the optimum
         # The group sizes should be roughly equal
-        return np.mean(np.abs(self.counts - self.opt_group_size)) + np.std(self.counts)
+        return np.mean(np.abs(normalized_counts - 1)) + np.std(normalized_counts)
 
     def error_meetings(self, days: np.ndarray):
         meets_others = np.zeros(self.n_users)
