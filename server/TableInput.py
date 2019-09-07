@@ -40,6 +40,8 @@ class TableInput:
 
                 flash(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they have not summed up to 1.')
 
+        self.alphas = alphas
+
         # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
         cmd = ['python', 'group_allocation.py']
         cmd.append('--n_groups')
@@ -52,7 +54,7 @@ class TableInput:
             cmd.append(json.dumps(self.foreigners, cls=JSONNumpyEncoder))
 
         cmd.append('--alphas')
-        for alpha in alphas:
+        for alpha in self.alphas:
             cmd.append(str(alpha))
 
         # Popen works asynchronously (approach inspired by https://stackoverflow.com/a/28319191)
@@ -120,7 +122,7 @@ class TableInput:
             return file.read()
 
     def stats(self):
-        gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)
+        gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners, self.alphas)
         errors = gval.error_components(self.alloc)
         group_sizes = gval.counts.transpose().tolist()
 
