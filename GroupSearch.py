@@ -31,16 +31,20 @@ class GroupSearch:
         counter = Value('i', 0)
         seeds = range(self.n_seeds)
 
-        # init_counter(counter)
-        # results = []
-        # for seed in seeds:
-        #     results.append(self._start_random_walk(seed))
-        pool = Pool(processes=cpu_count(), initializer=init_counter, initargs=(counter, ))
-        results = []
-        for i, result in enumerate(pool.imap_unordered(self._start_random_walk, seeds)):
-            results.append(result)
-        pool.close()
-        pool.join()
+        if self.n_iterations * self.n_seeds < 1000:
+            # Sequential execution
+            init_counter(counter)
+            results = []
+            for seed in seeds:
+                results.append(self._start_random_walk(seed))
+        else:
+            # Parallel execution
+            pool = Pool(processes=cpu_count(), initializer=init_counter, initargs=(counter, ))
+            results = []
+            for i, result in enumerate(pool.imap_unordered(self._start_random_walk, seeds)):
+                results.append(result)
+            pool.close()
+            pool.join()
 
         best_error = np.inf
         best_combs = None
