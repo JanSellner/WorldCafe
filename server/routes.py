@@ -61,7 +61,8 @@ def index():
                 flash('The number of groups equals the number of users. It does not really make sense to run the algorithm in this case since there is only one solution. Please add more users or specify less groups.')
 
             execution_stats = ExecutionStats()
-            table_input = TableInput(df, form.n_groups.data, [form.alpha1.data, form.alpha2.data, form.alpha3.data], execution_stats.progress_listener)
+            alphas = [form.alpha1.data, form.alpha2.data, form.alpha3.data]
+            table_input = TableInput(df, form.n_groups.data, alphas, execution_stats.progress_listener)
 
             # Generate CSV file data and wrap it in a data URI
             table_data = table_input.table_data()

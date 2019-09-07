@@ -5,6 +5,7 @@ import subprocess
 
 import numpy as np
 import pandas as pd
+from flask import flash
 
 from GroupEvaluation import GroupEvaluation
 from JSONNumpyEncoder import JSONNumpyEncoder
@@ -13,10 +14,14 @@ from server import UserError, ServerError
 
 class TableInput:
     def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, listener):
+        assert len(alphas) == 3, 'Three weights required'
         self.df = df
 
         if len(self.df) < n_groups:
             raise UserError('There are not enough users available to fill the groups.')
+
+        if not np.isclose(sum(alphas), 1):
+            raise UserError('The alpha weights need to sum up to 1.')
 
         if 'Foreigner' in self.df:
             self.foreigners = self.df['Foreigner'].to_numpy().astype(np.int32)
@@ -24,6 +29,16 @@ class TableInput:
                 raise UserError('A foreigner state must be given for each user.')
         else:
             self.foreigners = None
+
+            # We only need the first to weights when no foreigners are given
+            alphas = alphas[:2]
+            alphas_total = sum(alphas)
+            if not np.isclose(alphas_total, 1):
+                # Make sure they sum up to 1
+                alphas[0] /= alphas_total
+                alphas[1] /= alphas_total
+
+                flash(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they have not summed up to 1.')
 
         # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
         cmd = ['python', 'group_allocation.py']
