@@ -65,6 +65,7 @@
                 <ul>
                     <li>Comma (<code>,</code>) as separator.</li>
                     <li>First row must be a header row.</li>
+                    <li>If you want the names of the users to appear in the output, include either two columns <code>First Name</code> and <code>Family Name</code> or just one column <code>Name</code>.</li>
                     <li>Optionally, one column can be <code>Foreigner</code> with either <code>true</code> or <code>false</code> values. This is interpreted by the system and it tries to find a solution which equally distributes foreigners and non-foreigners over the days.</li>
                 </ul>
                 {{ form.file.label(title=form.file.description) }}: {{ form.file() }}
@@ -452,11 +453,17 @@
                 categories: memberStats['names'],
                 labels: {
                     formatter () {
-                        return `<span style="color: ${colors[this.value]}">${this.value}</span>`
+                        return `<span style="color: ${colors[this.value]}; max-width: 10px">${this.value}</span>`
+                    },
+                    style: {
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        width: 100,
                     }
-                }
+                },
             },
             yAxis: {
+                tickInterval: 2,
                 min: 0,
                 allowDecimals: false,
                 title: {
