@@ -38,7 +38,7 @@ class TableInput:
                 alphas[0] /= alphas_total
                 alphas[1] /= alphas_total
 
-                flash(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they have not summed up to 1.')
+                flash(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they had not summed up to 1.')
 
         self.alphas = alphas
 
