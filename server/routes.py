@@ -18,16 +18,19 @@ class ExecutionStats:
         self.last_time = None
         self.progress_diffs = []
         self.time_diffs = []
+        self.average_times = []
 
     def progress_listener(self, value):
-        print(value)
         time = default_timer()
-        if self.last_time is not None:
+        if self.last_time is not None and self.last_progress > 0.1:  # The first few updates tend to be unstable
             self.progress_diffs.append(value - self.last_progress)
             self.time_diffs.append(time - self.last_time)
 
-            average_time = np.average(self.time_diffs, weights=self.progress_diffs) / np.mean(self.progress_diffs)
-            remaining_time = round(average_time * (1 - value))
+            # Estimate average time per progress value
+            current_average = np.average(self.time_diffs, weights=self.progress_diffs) / np.mean(self.progress_diffs)
+            self.average_times.append(current_average)
+
+            remaining_time = round(np.median(self.average_times) * (1 - value))  # The median should be relatively stable
             socketio.emit('update remaining time', remaining_time)
 
         self.last_progress = value
