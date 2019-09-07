@@ -9,12 +9,14 @@
     <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='tippy.min.js') }}"></script>
     <script src="{{ url_for('static', filename='d3.bundle.min.js') }}"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          TeX: { equationNumbers: { autoNumber: "AMS" } }
-        });
+    <script>
+        window.MathJax = {
+            tex: {
+                tags: 'ams'
+            }
+        };
     </script>
-    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script id="MathJax-script" async src="{{ url_for('static', filename='mathjax/tex-chtml.js') }}"></script>
     <script src="{{ url_for('static', filename='socket.io.slim.js') }}"></script>
     <script type="text/javascript" charset="utf-8">
         var socket = io();

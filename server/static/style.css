@@ -16,7 +16,8 @@ body {
 body > p,
 body > form,
 body > ul,
-body > span {
+body > span,
+body > mjx-container {
     max-width: 600px !important;
 }
 
