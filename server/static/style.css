@@ -53,8 +53,7 @@ tr.separator {
     display: flex;
     flex-wrap: wrap;
     max-width: 500px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
 }
 .tabs > label {
     order: 1;
@@ -116,6 +115,12 @@ input[type="number"] {
 form {
     margin-bottom: 1rem;
 }
+form > label:first-of-type {
+    margin-bottom: 1rem;
+}
+form > details {
+    margin-bottom: 0.5rem;
+}
 
 /* Detail sections */
 details[open] {
@@ -133,6 +138,9 @@ summary {
 }
 .warning {
     color: orange;
+}
+.normal {
+    font-weight: normal;
 }
 #stats {
     display: flex;
@@ -153,7 +161,7 @@ span.tooltip_heading {
 #pointer {
     cursor: move;
 }
-form > svg {
+form svg {
     display: block;
     max-width: 350px;
     margin: 0 auto 1rem auto;

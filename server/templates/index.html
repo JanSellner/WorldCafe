@@ -76,278 +76,282 @@
             </div>
         </div>
 
-        <p>Advanced: specify the weights \(\alpha\) for the error function manually to focus on different aspects. For example, it is sometimes possible to increase the average number of meetings of the users while approving less consistent group sizes. Move the red circle inside the triangle to change your preferences. With increasing weight value, higher importance is given to the corresponding part of the error functions. This means that this part is preferred in the optimization process yielding lower error values. For example, when \(\alpha_s\) increases, usually \(E_s\) decreases resulting in better group sizes.</p>
+        <details>
+            <summary>Advanced: <span class="normal">specify the \(\alpha\) weights manually</span></summary>
 
-        <p>Note: changes in the weights may not have a direct effect on the output since the change of the solutions is discrete. Many different weight settings end up with the same result. However, there is usually a point where it tips over and you get a different result.</p>
+            <p>It is possible to exercise some control over the execution of the algorithm by specifying explicit weights \(\alpha\) for the error function. This allows to shift the focus on different aspects of the optimization. For example, it is sometimes possible to increase the average number of meetings of the users while approving less consistent group sizes. Move the red circle inside the triangle to change your preferences. With increasing weight value, higher importance is given to the corresponding part of the error functions. This means that this part is preferred in the optimization process yielding lower error values. For example, when \(\alpha_s\) increases, usually \(E_s\) decreases resulting in better group sizes.</p>
 
-        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.44 171.06"><defs><style>.cls-1{fill:#fff;stroke-width:2px;}.cls-1,.cls-5{stroke:#000;stroke-miterlimit:10;}.cls-2{font-size:12px;}.cls-2,.cls-4{font-family:SegoeUI, Segoe UI;}.cls-3{font-size:10px;}.cls-3,.cls-6{font-family:SegoeUI-Italic, Segoe UI;font-style:italic;}.cls-4{font-style:normal;}.cls-5{fill:#c1272d;stroke-width:0.5px;}.cls-6{font-size:8px;}</style></defs><polygon id="triangle" class="cls-1" points="98.37 26.63 31.19 142.99 165.56 142.99 98.37 26.63"/><text id="meetings" class="cls-2" transform="translate(0 154.7)">Meetings<tspan class="cls-3"><tspan x="4.79" y="12">α</tspan><tspan class="cls-4" x="11.05" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="size" class="cls-2" transform="translate(88.63 10.2)">Size<tspan class="cls-3"><tspan x="-9.34" y="12">α</tspan><tspan class="cls-4" x="-3.08" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="foreigners" class="cls-2" transform="translate(145.8 154.7)">Foreigners<tspan class="cls-3"><tspan x="7.99" y="12">α</tspan><tspan class="cls-4" x="14.25" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><circle id="pointer" class="cls-5" cx="99.37" cy="98.2" r="4"/><text class="cls-6" transform="translate(85.54 23.45)">s</text><text class="cls-6" transform="translate(159.94 168.95) scale(1 0.83)">f</text><text class="cls-6" transform="translate(10.21 168.95) scale(0.85 1)">m</text></svg>
+            <p>Note: changes in the weights may not have a direct effect on the output since the change of the solutions is discrete. Many different weight settings end up with the same result. However, there is usually a point where it tips over and you get a different result.</p>
 
-        {{ form.alpha1(class='alphas') }}
-        {{ form.alpha2(class='alphas') }}
-        {{ form.alpha3(class='alphas') }}
-        {% for error in form.alpha1.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-        {% for error in form.alpha2.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-        {% for error in form.alpha3.errors %}
-            <span class="error">{{ error }}</span>
-        {% endfor %}
-        <script>
-            // http://blog.acipo.com/matrix-inversion-in-javascript/
-            // Returns the inverse of matrix `M`.
-            function matrixInvert(M) {
-                // I use Guassian Elimination to calculate the inverse:
-                // (1) 'augment' the matrix (left) by the identity (on the right)
-                // (2) Turn the matrix on the left into the identity by elemetry row ops
-                // (3) The matrix on the right is the inverse (was the identity matrix)
-                // There are 3 elemtary row ops: (I combine b and c in my code)
-                // (a) Swap 2 rows
-                // (b) Multiply a row by a scalar
-                // (c) Add 2 rows
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.44 171.06"><defs><style>.cls-1{fill:#fff;stroke-width:2px;}.cls-1,.cls-5{stroke:#000;stroke-miterlimit:10;}.cls-2{font-size:12px;}.cls-2,.cls-4{font-family:SegoeUI, Segoe UI;}.cls-3{font-size:10px;}.cls-3,.cls-6{font-family:SegoeUI-Italic, Segoe UI;font-style:italic;}.cls-4{font-style:normal;}.cls-5{fill:#c1272d;stroke-width:0.5px;}.cls-6{font-size:8px;}</style></defs><polygon id="triangle" class="cls-1" points="98.37 26.63 31.19 142.99 165.56 142.99 98.37 26.63"/><text id="meetings" class="cls-2" transform="translate(0 154.7)">Meetings<tspan class="cls-3"><tspan x="4.79" y="12">α</tspan><tspan class="cls-4" x="11.05" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="size" class="cls-2" transform="translate(88.63 10.2)">Size<tspan class="cls-3"><tspan x="-9.34" y="12">α</tspan><tspan class="cls-4" x="-3.08" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="foreigners" class="cls-2" transform="translate(145.8 154.7)">Foreigners<tspan class="cls-3"><tspan x="7.99" y="12">α</tspan><tspan class="cls-4" x="14.25" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><circle id="pointer" class="cls-5" cx="99.37" cy="98.2" r="4"/><text class="cls-6" transform="translate(85.54 23.45)">s</text><text class="cls-6" transform="translate(159.94 168.95) scale(1 0.83)">f</text><text class="cls-6" transform="translate(10.21 168.95) scale(0.85 1)">m</text></svg>
 
-                //if the matrix isn't square: exit (error)
-                if (M.length !== M[0].length) {
-                    return;
-                }
+            {{ form.alpha1(class='alphas') }}
+            {{ form.alpha2(class='alphas') }}
+            {{ form.alpha3(class='alphas') }}
+            {% for error in form.alpha1.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+            {% for error in form.alpha2.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+            {% for error in form.alpha3.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+            <script>
+                // http://blog.acipo.com/matrix-inversion-in-javascript/
+                // Returns the inverse of matrix `M`.
+                function matrixInvert(M) {
+                    // I use Guassian Elimination to calculate the inverse:
+                    // (1) 'augment' the matrix (left) by the identity (on the right)
+                    // (2) Turn the matrix on the left into the identity by elemetry row ops
+                    // (3) The matrix on the right is the inverse (was the identity matrix)
+                    // There are 3 elemtary row ops: (I combine b and c in my code)
+                    // (a) Swap 2 rows
+                    // (b) Multiply a row by a scalar
+                    // (c) Add 2 rows
 
-                //create the identity matrix (I), and a copy (C) of the original
-                var i = 0, ii = 0, j = 0, dim = M.length, e = 0, t = 0;
-                var I = [], C = [];
-                for (i = 0; i < dim; i += 1) {
-                    // Create the row
-                    I[I.length] = [];
-                    C[C.length] = [];
-                    for (j = 0; j < dim; j += 1) {
-
-                        //if we're on the diagonal, put a 1 (for identity)
-                        if (i === j) {
-                            I[i][j] = 1;
-                        } else {
-                            I[i][j] = 0;
-                        }
-
-                        // Also, make the copy of the original
-                        C[i][j] = M[i][j];
+                    //if the matrix isn't square: exit (error)
+                    if (M.length !== M[0].length) {
+                        return;
                     }
-                }
 
-                // Perform elementary row operations
-                for (i = 0; i < dim; i += 1) {
-                    // get the element e on the diagonal
-                    e = C[i][i];
+                    //create the identity matrix (I), and a copy (C) of the original
+                    var i = 0, ii = 0, j = 0, dim = M.length, e = 0, t = 0;
+                    var I = [], C = [];
+                    for (i = 0; i < dim; i += 1) {
+                        // Create the row
+                        I[I.length] = [];
+                        C[C.length] = [];
+                        for (j = 0; j < dim; j += 1) {
 
-                    // if we have a 0 on the diagonal (we'll need to swap with a lower row)
-                    if (e === 0) {
-                        //look through every row below the i'th row
-                        for (ii = i + 1; ii < dim; ii += 1) {
-                            //if the ii'th row has a non-0 in the i'th col
-                            if (C[ii][i] !== 0) {
-                                //it would make the diagonal have a non-0 so swap it
-                                for (j = 0; j < dim; j++) {
-                                    e = C[i][j];       //temp store i'th row
-                                    C[i][j] = C[ii][j];//replace i'th row by ii'th
-                                    C[ii][j] = e;      //repace ii'th by temp
-                                    e = I[i][j];       //temp store i'th row
-                                    I[i][j] = I[ii][j];//replace i'th row by ii'th
-                                    I[ii][j] = e;      //repace ii'th by temp
+                            //if we're on the diagonal, put a 1 (for identity)
+                            if (i === j) {
+                                I[i][j] = 1;
+                            } else {
+                                I[i][j] = 0;
+                            }
+
+                            // Also, make the copy of the original
+                            C[i][j] = M[i][j];
+                        }
+                    }
+
+                    // Perform elementary row operations
+                    for (i = 0; i < dim; i += 1) {
+                        // get the element e on the diagonal
+                        e = C[i][i];
+
+                        // if we have a 0 on the diagonal (we'll need to swap with a lower row)
+                        if (e === 0) {
+                            //look through every row below the i'th row
+                            for (ii = i + 1; ii < dim; ii += 1) {
+                                //if the ii'th row has a non-0 in the i'th col
+                                if (C[ii][i] !== 0) {
+                                    //it would make the diagonal have a non-0 so swap it
+                                    for (j = 0; j < dim; j++) {
+                                        e = C[i][j];       //temp store i'th row
+                                        C[i][j] = C[ii][j];//replace i'th row by ii'th
+                                        C[ii][j] = e;      //repace ii'th by temp
+                                        e = I[i][j];       //temp store i'th row
+                                        I[i][j] = I[ii][j];//replace i'th row by ii'th
+                                        I[ii][j] = e;      //repace ii'th by temp
+                                    }
+                                    //don't bother checking other rows since we've swapped
+                                    break;
                                 }
-                                //don't bother checking other rows since we've swapped
-                                break;
+                            }
+                            //get the new diagonal
+                            e = C[i][i];
+                            //if it's still 0, not invertable (error)
+                            if (e === 0) {
+                                return
                             }
                         }
-                        //get the new diagonal
-                        e = C[i][i];
-                        //if it's still 0, not invertable (error)
-                        if (e === 0) {
-                            return
-                        }
-                    }
 
-                    // Scale this row down by e (so we have a 1 on the diagonal)
-                    for (j = 0; j < dim; j++) {
-                        C[i][j] = C[i][j] / e; //apply to original matrix
-                        I[i][j] = I[i][j] / e; //apply to identity
-                    }
-
-                    // Subtract this row (scaled appropriately for each row) from ALL of
-                    // the other rows so that there will be 0's in this column in the
-                    // rows above and below this one
-                    for (ii = 0; ii < dim; ii++) {
-                        // Only apply to other rows (we want a 1 on the diagonal)
-                        if (ii === i) {
-                            continue;
-                        }
-
-                        // We want to change this element to 0
-                        e = C[ii][i];
-
-                        // Subtract (the row above(or below) scaled by e) from (the
-                        // current row) but start at the i'th column and assume all the
-                        // stuff left of diagonal is 0 (which it should be if we made this
-                        // algorithm correctly)
+                        // Scale this row down by e (so we have a 1 on the diagonal)
                         for (j = 0; j < dim; j++) {
-                            C[ii][j] -= e * C[i][j]; //apply to original matrix
-                            I[ii][j] -= e * I[i][j]; //apply to identity
+                            C[i][j] = C[i][j] / e; //apply to original matrix
+                            I[i][j] = I[i][j] / e; //apply to identity
+                        }
+
+                        // Subtract this row (scaled appropriately for each row) from ALL of
+                        // the other rows so that there will be 0's in this column in the
+                        // rows above and below this one
+                        for (ii = 0; ii < dim; ii++) {
+                            // Only apply to other rows (we want a 1 on the diagonal)
+                            if (ii === i) {
+                                continue;
+                            }
+
+                            // We want to change this element to 0
+                            e = C[ii][i];
+
+                            // Subtract (the row above(or below) scaled by e) from (the
+                            // current row) but start at the i'th column and assume all the
+                            // stuff left of diagonal is 0 (which it should be if we made this
+                            // algorithm correctly)
+                            for (j = 0; j < dim; j++) {
+                                C[ii][j] -= e * C[i][j]; //apply to original matrix
+                                I[ii][j] -= e * I[i][j]; //apply to identity
+                            }
                         }
                     }
+
+                    //we've done all operations, C should be the identity
+                    //matrix I should be the inverse:
+                    return I;
                 }
 
-                //we've done all operations, C should be the identity
-                //matrix I should be the inverse:
-                return I;
-            }
+                function distance(p1, p2) {
+                    const x = Math.pow(p1.x - p2.x, 2);
+                    const y = Math.pow(p1.y - p2.y, 2);
 
-            function distance(p1, p2) {
-                const x = Math.pow(p1.x - p2.x, 2);
-                const y = Math.pow(p1.y - p2.y, 2);
-
-                return Math.sqrt(x + y);
-            }
-
-            function norm(p) {
-                return Math.sqrt(p.x*p.x + p.y*p.y);
-            }
-
-            function normalize(p) {
-                const pNorm = norm(p);
-                return {
-                    x: p.x / pNorm,
-                    y: p.y / pNorm
-                };
-            }
-
-            function closestPoints(current) {
-                let pointsCopy = points.slice();
-                pointsCopy.sort((p1, p2) => distance(p1, current) - distance(p2, current));
-
-                return [pointsCopy[0], pointsCopy[1]]
-            }
-
-            function clamp(value, min, max) {
-                return Math.min(Math.max(value, min), max);
-            }
-
-            function setAlphasText(alpha1, alpha2, alpha3) {
-                d3.select('#size > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha1));
-                d3.select('#meetings > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha2));
-                d3.select('#foreigners > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha3));
-            }
-
-            const svg = document.querySelector('form > svg');
-            const pointer = document.getElementById('pointer');
-            const triangle = document.getElementById('triangle');
-
-            // Points of the triangle
-            const pointsList = document.querySelector('#triangle').points;
-            let points = new Array(pointsList.length - 1);  // The last point is identical to the first
-            for (let i = 0; i < points.length; ++i) {
-                points[i] = pointsList[i];
-            }
-
-            // Set the alphas in the image to the current values from the forms
-            const alpha1 = document.getElementById('alpha1').value;
-            const alpha2 = document.getElementById('alpha2').value;
-            const alpha3 = document.getElementById('alpha3').value;
-            setAlphasText(alpha1, alpha2, alpha3);
-
-            // Update also the position of the pointer accordingly
-            const currentPos = {
-                x: alpha1 * points[0].x + alpha2 * points[1].x + alpha3 * points[2].x,
-                y: alpha1 * points[0].y + alpha2 * points[1].y + alpha3 * points[2].y
-            };
-            d3.select(pointer).attr("cx", currentPos.x)
-                              .attr("cy", currentPos.y );
-
-            // Prepare matrix for barycentric coordinates
-            const T = [[points[0].x - points[2].x, points[1].x - points[2].x],
-                       [points[0].y - points[2].y, points[1].y - points[2].y]];
-            const Tinv = matrixInvert(T);
-
-            function dragStart() {
-                d3.select(pointer).style("stroke-width", "1.5px");
-            }
-
-            function drag() {
-                let event = d3.event;
-                if (event.hasOwnProperty('sourceEvent')) {
-                    event = event.sourceEvent;
-                }
-                const tags = document.elementsFromPoint(event.clientX, event.clientY);    // Viewport coordinates
-                const mouse = d3.mouse(this);
-                const current = {
-                    x: mouse[0],  // In SVG coordinates
-                    y: mouse[1]
-                };
-
-                // First check whether the mouse is also over the triangle
-                let newPoint = null;
-                for (let tag of tags) {
-                    if (tag.tagName === 'polygon') {
-                        newPoint = current;
-                        break;
-                    }
+                    return Math.sqrt(x + y);
                 }
 
-                if (newPoint === null) {
-                    // Mouse is outside of the triangle --> move pointer to the projection on the closest triangle side
-                    // p1 + <e, p1Current> * e
-                    const [p1, p2] = closestPoints(current);
-                    const p1CurrentVec = {
-                        x: current.x - p1.x,
-                        y: current.y - p1.y
+                function norm(p) {
+                    return Math.sqrt(p.x*p.x + p.y*p.y);
+                }
+
+                function normalize(p) {
+                    const pNorm = norm(p);
+                    return {
+                        x: p.x / pNorm,
+                        y: p.y / pNorm
                     };
-                    let p1p2Vec = {
-                        x: p2.x - p1.x,
-                        y: p2.y - p1.y
-                    };
-
-                    p1p2Vec = normalize(p1p2Vec);
-                    const dot = p1p2Vec.x * p1CurrentVec.x + p1p2Vec.y * p1CurrentVec.y;
-
-                    if (dot < 0) {
-                        // Projection is not on the triangle side --> move to the corner
-                        newPoint = p1;
-                    }
-                    else {
-                        newPoint = {
-                            x: p1.x + p1p2Vec.x * dot,
-                            y: p1.y + p1p2Vec.y * dot
-                        };
-                    }
                 }
 
-                // Calculate barycentric coordinates (weighted sum of the triangle points)
-                const diffX = newPoint.x - points[2].x;
-                const diffY = newPoint.y - points[2].y;
-                const alpha1 = clamp(Tinv[0][0] * diffX + Tinv[0][1] * diffY, 0, 1);
-                const alpha2 = clamp(Tinv[1][0] * diffX + Tinv[1][1] * diffY, 0, 1);
-                const alpha3 = clamp(1 - alpha1 - alpha2, 0, 1);
+                function closestPoints(current) {
+                    let pointsCopy = points.slice();
+                    pointsCopy.sort((p1, p2) => distance(p1, current) - distance(p2, current));
 
+                    return [pointsCopy[0], pointsCopy[1]]
+                }
+
+                function clamp(value, min, max) {
+                    return Math.min(Math.max(value, min), max);
+                }
+
+                function setAlphasText(alpha1, alpha2, alpha3) {
+                    d3.select('#size > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha1));
+                    d3.select('#meetings > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha2));
+                    d3.select('#foreigners > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha3));
+                }
+
+                const svg = document.querySelector('form > svg');
+                const pointer = document.getElementById('pointer');
+                const triangle = document.getElementById('triangle');
+
+                // Points of the triangle
+                const pointsList = document.querySelector('#triangle').points;
+                let points = new Array(pointsList.length - 1);  // The last point is identical to the first
+                for (let i = 0; i < points.length; ++i) {
+                    points[i] = pointsList[i];
+                }
+
+                // Set the alphas in the image to the current values from the forms
+                const alpha1 = document.getElementById('alpha1').value;
+                const alpha2 = document.getElementById('alpha2').value;
+                const alpha3 = document.getElementById('alpha3').value;
                 setAlphasText(alpha1, alpha2, alpha3);
 
-                // Update the (invisible) forms
-                document.getElementById('alpha1').value = alpha1;
-                document.getElementById('alpha2').value = alpha2;
-                document.getElementById('alpha3').value = alpha3;
+                // Update also the position of the pointer accordingly
+                const currentPos = {
+                    x: alpha1 * points[0].x + alpha2 * points[1].x + alpha3 * points[2].x,
+                    y: alpha1 * points[0].y + alpha2 * points[1].y + alpha3 * points[2].y
+                };
+                d3.select(pointer).attr("cx", currentPos.x)
+                                  .attr("cy", currentPos.y );
 
-                // Move pointer
-                d3.select(pointer).attr("cx", newPoint.x)
-                                  .attr("cy", newPoint.y );
-            }
+                // Prepare matrix for barycentric coordinates
+                const T = [[points[0].x - points[2].x, points[1].x - points[2].x],
+                           [points[0].y - points[2].y, points[1].y - points[2].y]];
+                const Tinv = matrixInvert(T);
 
-            function dragEnd() {
-                d3.select(pointer).style("stroke-width", "0.5px");
-            }
+                function dragStart() {
+                    d3.select(pointer).style("stroke-width", "1.5px");
+                }
 
-            d3.select(svg).on('click', drag);
-            d3.select(pointer).call(d3.drag()
-                .on("start", dragStart)
-                .on("drag", drag)
-                .on("end", dragEnd)
-            );
-        </script>
+                function drag() {
+                    let event = d3.event;
+                    if (event.hasOwnProperty('sourceEvent')) {
+                        event = event.sourceEvent;
+                    }
+                    const tags = document.elementsFromPoint(event.clientX, event.clientY);    // Viewport coordinates
+                    const mouse = d3.mouse(this);
+                    const current = {
+                        x: mouse[0],  // In SVG coordinates
+                        y: mouse[1]
+                    };
+
+                    // First check whether the mouse is also over the triangle
+                    let newPoint = null;
+                    for (let tag of tags) {
+                        if (tag.tagName === 'polygon') {
+                            newPoint = current;
+                            break;
+                        }
+                    }
+
+                    if (newPoint === null) {
+                        // Mouse is outside of the triangle --> move pointer to the projection on the closest triangle side
+                        // p1 + <e, p1Current> * e
+                        const [p1, p2] = closestPoints(current);
+                        const p1CurrentVec = {
+                            x: current.x - p1.x,
+                            y: current.y - p1.y
+                        };
+                        let p1p2Vec = {
+                            x: p2.x - p1.x,
+                            y: p2.y - p1.y
+                        };
+
+                        p1p2Vec = normalize(p1p2Vec);
+                        const dot = p1p2Vec.x * p1CurrentVec.x + p1p2Vec.y * p1CurrentVec.y;
+
+                        if (dot < 0) {
+                            // Projection is not on the triangle side --> move to the corner
+                            newPoint = p1;
+                        }
+                        else {
+                            newPoint = {
+                                x: p1.x + p1p2Vec.x * dot,
+                                y: p1.y + p1p2Vec.y * dot
+                            };
+                        }
+                    }
+
+                    // Calculate barycentric coordinates (weighted sum of the triangle points)
+                    const diffX = newPoint.x - points[2].x;
+                    const diffY = newPoint.y - points[2].y;
+                    const alpha1 = clamp(Tinv[0][0] * diffX + Tinv[0][1] * diffY, 0, 1);
+                    const alpha2 = clamp(Tinv[1][0] * diffX + Tinv[1][1] * diffY, 0, 1);
+                    const alpha3 = clamp(1 - alpha1 - alpha2, 0, 1);
+
+                    setAlphasText(alpha1, alpha2, alpha3);
+
+                    // Update the (invisible) forms
+                    document.getElementById('alpha1').value = alpha1;
+                    document.getElementById('alpha2').value = alpha2;
+                    document.getElementById('alpha3').value = alpha3;
+
+                    // Move pointer
+                    d3.select(pointer).attr("cx", newPoint.x)
+                                      .attr("cy", newPoint.y );
+                }
+
+                function dragEnd() {
+                    d3.select(pointer).style("stroke-width", "0.5px");
+                }
+
+                d3.select(svg).on('click', drag);
+                d3.select(pointer).call(d3.drag()
+                    .on("start", dragStart)
+                    .on("drag", drag)
+                    .on("end", dragEnd)
+                );
+            </script>
+        </details>
 
         {{ form.submit() }}
         <script>
