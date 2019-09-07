@@ -413,7 +413,7 @@
             </ul>
             {% endif %}
         </li>
-        <li>Error: \(E(A_*) = \) {{stats.error}} (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
+        <li>Error: \(E(A_*) = \alpha_1 \cdot {{ stats.error_size }} + \alpha_2 \cdot {{ stats.error_meetings }} {{ '+ \\alpha_3 \\cdot ' + stats.error_foreigners|string if 'error_foreigners' in stats }} = {{stats.error}}\) (the lower the better the allocation). Please note that an error of 0 is not possible in general.</li>
         <li>Download the results as <a download="GroupAllocation.csv" href="data:text/csv;base64,{{ csv_data }}">CSV file</a>.</li>
     </ul>
 
