@@ -16,13 +16,13 @@ def init_counter(value):
 
 
 class GroupSearch:
-    def __init__(self, n_groups: int, n_users: int, foreigners=None):
-        assert n_groups <= 8, 'The number of groups should not be too high as otherwise the algorithm takes too long'
+    def __init__(self, n_groups: int, n_users: int, foreigners=None, alphas=None):
+        assert n_groups <= 8, 'The number of groups should not be too high as otherwise the algorithm takes too long.'
 
         self.groups = np.arange(1, n_groups + 1)
         self.n_users = n_users
 
-        self.gval = GroupEvaluation(self.groups, self.n_users, foreigners)
+        self.gval = GroupEvaluation(self.groups, self.n_users, foreigners, alphas)
 
     def find_best_allocation(self):
         self.n_seeds = 20
@@ -46,7 +46,6 @@ class GroupSearch:
         best_combs = None
         for result in results:
             error, last_improvement, combs = result
-            error = sum(result[0])
             if error < best_error:
                 best_error = error
                 best_combs = combs
@@ -92,7 +91,7 @@ class GroupSearch:
                 days_copy[:, idx_user] = new_slots
 
                 error_new = self.gval.error_total(days_copy)
-                if sum(error_new) < sum(error):
+                if error_new < error:
                     error = error_new
                     days = days_copy
                     last_improvement = i

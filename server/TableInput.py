@@ -12,7 +12,7 @@ from server import UserError, ServerError
 
 
 class TableInput:
-    def __init__(self, df: pd.DataFrame, n_groups: int, listener):
+    def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, listener):
         self.df = df
 
         if len(self.df) < n_groups:
@@ -27,11 +27,18 @@ class TableInput:
 
         # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
         cmd = ['python', 'group_allocation.py']
+        cmd.append('--n_groups')
+        cmd.append(str(n_groups))
+        cmd.append('--n_users')
+        cmd.append(str(len(self.df)))
+
         if self.foreigners is not None:
             cmd.append('--foreigners')
             cmd.append(json.dumps(self.foreigners, cls=JSONNumpyEncoder))
-        cmd.append(str(n_groups))
-        cmd.append(str(len(self.df)))
+
+        cmd.append('--alphas')
+        for alpha in alphas:
+            cmd.append(str(alpha))
 
         # Popen works asynchronously (approach inspired by https://stackoverflow.com/a/28319191)
         with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
@@ -99,16 +106,21 @@ class TableInput:
 
     def stats(self):
         gval = GroupEvaluation(np.unique(self.alloc), self.alloc.shape[1], self.foreigners)
-        error = sum(gval.error_total(self.alloc))
+        errors = gval.error_components(self.alloc)
         group_sizes = gval.counts.transpose().tolist()
 
         stats = {
-            'error': round(error, 2),
+            'error_size': round(errors[0], 2),
+            'error_meetings': round(errors[1], 2),
+            'error': round(gval.error_total(self.alloc), 2),
             'groups': {
                 'sizes': group_sizes,
                 'sizes_mean': np.round(np.mean(gval.counts), 2)
             }
         }
+
+        if len(errors) == 3:
+            stats['error_foreigners'] = round(errors[2], 2)
 
         if 'First Name' in self.df and 'Family Name':
             names = (self.df['First Name'] + ' ' + self.df['Family Name']).tolist()

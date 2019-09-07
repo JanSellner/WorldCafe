@@ -149,3 +149,14 @@ summary {
 span.tooltip_heading {
     font-size: 1.1rem;
 }
+#pointer {
+    cursor: move;
+}
+.tab > svg {
+    display: block;
+    margin: 0 auto;
+    max-width: 350px;
+}
+input.alphas {
+    display: none;
+}

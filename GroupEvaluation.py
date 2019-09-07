@@ -3,14 +3,24 @@ from scipy.stats import entropy
 
 
 class GroupEvaluation:
-    def __init__(self, groups, n_users, foreigners=None):
+    def __init__(self, groups, n_users, foreigners=None, alphas=None):
         self.groups = groups
         self.n_users = n_users
         self.opt_group_size = self.n_users / len(self.groups)
 
+        if alphas is None:
+            self.alphas = [1/3] * 3
+        else:
+            self.alphas = alphas
+            assert 2 <= len(self.alphas) <= 3, 'Each error component must have a corresponding alpha weight.'
+            assert np.isclose(sum(self.alphas), 1), 'The alpha weights need to sum up to 1.'
+
         self.foreigners = foreigners
-        if self.foreigners is not None:
-            assert len(self.foreigners) == self.n_users, 'A foreigner state must be given for each student'
+        if self.foreigners is None:
+            self.alphas = self.alphas[:2]
+        else:
+            assert len(self.foreigners) == self.n_users, 'A foreigner state must be given for each student.'
+            assert len(self.alphas) == 3, 'There are three error components when using foreigner states.'
             self.foreigners = np.asarray(self.foreigners)
 
         self.others = np.empty(self.n_users, dtype=object)
@@ -95,7 +105,7 @@ class GroupEvaluation:
         # The entropy values should be roughly equal
         return np.mean(entropies) + np.std(entropies)
 
-    def error_total(self, days: np.ndarray):
+    def error_components(self, days: np.ndarray):
         if days.shape[0] == len(self.groups) - 1:
             days = self.add_last_comb(days)
 
@@ -105,3 +115,8 @@ class GroupEvaluation:
             error.append(self.error_foreigners(days))
 
         return error
+
+    def error_total(self, days: np.ndarray):
+        errors = self.error_components(days)
+
+        return np.dot(self.alphas, errors)

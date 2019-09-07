@@ -1,15 +1,17 @@
 import argparse
 import json
 import sys
+import numpy as np
 
 from GroupSearch import GroupSearch
 from JSONNumpyEncoder import JSONNumpyEncoder
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description='Finds a good group allocation.')
-    parser.add_argument('n_groups', type=int, help='Number of groups/days')
-    parser.add_argument('n_users', type=int, help='Number of users')
+    parser.add_argument('--n_groups', type=int, help='Number of groups/days', required=True)
+    parser.add_argument('--n_users', type=int, help='Number of users', required=True)
     parser.add_argument('--foreigners', type=str, help='Information about the foreigner state of each user passed as JSON array with either 0 (non-foreigner) or 1 (foreigner) values.')
+    parser.add_argument('--alphas', type=float, nargs='+', default=None, help='Weights for the individual components of the error function.')
 
     args = parser.parse_args()
 
@@ -32,6 +34,15 @@ if __name__ == '__main__':
         if not all([state in [0, 1] for state in foreigners]):
             sys.exit('Please use only 0 or 1 to specify the foreigner state.')
 
-    group_search = GroupSearch(args.n_groups, args.n_users, foreigners)
+    if args.alphas is not None:
+        if not np.isclose(sum(args.alphas), 1):
+            sys.exit('The alpha weights need to sum up to 1.')
+
+        if foreigners is None and len(args.alphas) != 2:
+            sys.exit('Each error component must have a corresponding alpha weight. Note that there should be 2 weights since no information about the foreigners is available.')
+        elif foreigners is not None and len(args.alphas) != 3:
+            sys.exit('Each error component must have a corresponding alpha weight. Note that there should be 3 weights since information about the foreigners is available.')
+
+    group_search = GroupSearch(args.n_groups, args.n_users, foreigners, args.alphas)
     alloc = group_search.find_best_allocation()
     print(json.dumps(alloc, cls=JSONNumpyEncoder))
