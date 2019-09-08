@@ -27,10 +27,11 @@ class ExecutionStats:
 
     def progress_listener(self, value):
         time = default_timer()
-        if self.last_time is not None and self.last_progress > 0.1:  # The first few updates tend to be unstable
+        if self.last_time is not None:
             self.progress_diffs.append(value - self.last_progress)
             self.time_diffs.append(time - self.last_time)
 
+        if self.last_progress > 0.1:  # The first few updates tend to be unstable
             # Estimate average time per progress value
             current_average = np.average(self.time_diffs, weights=self.progress_diffs) / np.mean(self.progress_diffs)
             self.average_times.append(current_average)
