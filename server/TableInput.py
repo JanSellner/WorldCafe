@@ -8,6 +8,7 @@ import pandas as pd
 from flask import flash
 
 from GroupEvaluation import GroupEvaluation
+from GroupSearch import GroupSearch
 from JSONNumpyEncoder import JSONNumpyEncoder
 from server import UserError, ServerError
 
@@ -42,12 +43,12 @@ class TableInput:
 
         self.alphas = alphas
 
+        iterations = GroupSearch(n_groups, len(self.df)).total_iterations()
+        if iterations > 1000000:
+            raise UserError('The computation would take too long for this configuration. Please specify less groups and/or less users.')
+
         # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
-        cmd = ['python', 'group_allocation.py']
-        cmd.append('--n_groups')
-        cmd.append(str(n_groups))
-        cmd.append('--n_users')
-        cmd.append(str(len(self.df)))
+        cmd = ['python', 'group_allocation.py', '--n_groups', str(n_groups), '--n_users', str(len(self.df))]
 
         if self.foreigners is not None:
             cmd.append('--foreigners')

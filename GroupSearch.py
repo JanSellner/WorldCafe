@@ -2,6 +2,7 @@ from multiprocessing import Pool, cpu_count, Value
 
 import numpy as np
 import itertools
+import math
 
 from GroupEvaluation import GroupEvaluation
 
@@ -22,12 +23,15 @@ class GroupSearch:
         self.groups = np.arange(1, n_groups + 1)
         self.n_users = n_users
 
-        self.gval = GroupEvaluation(self.groups, self.n_users, foreigners, alphas)
-
-    def find_best_allocation(self):
         self.n_seeds = 20
         self.n_iterations = self.n_users * 2
 
+        self.gval = GroupEvaluation(self.groups, self.n_users, foreigners, alphas)
+
+    def total_iterations(self):
+        return math.factorial(len(self.groups)) * self.n_seeds * self.n_iterations
+
+    def find_best_allocation(self):
         counter = Value('i', 0)
         seeds = range(self.n_seeds)
 
