@@ -35,8 +35,9 @@
             sidField.value = socket.id;
         });
         socket.on('update_progress', function (data) {
-            console.log('s');
-            document.getElementById('progress').setAttribute('value', data['progress']);
+            const progress = document.getElementById('progress');
+            progress.setAttribute('value', data['progress']);
+            progress.setAttribute('title', d3.format(".1f")(data['progress'] * 100) + ' %');
 
             if (data['remaining_time'] !== null) {
                 const minutes = Math.floor(data['remaining_time'] / 60);
@@ -386,7 +387,7 @@
             });
         </script>
         <label for="progress">Progress:</label>
-        <progress id="progress" value="{{ form.progress_bar }}"></progress>
+        <progress id="progress" value="{{ form.progress_bar }}" title="{{ '0 %' if form.progress_bar == 0 else '100 %'}}"></progress>
         <span id="remaining_time"></span>
     </form>
 
