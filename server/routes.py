@@ -1,19 +1,24 @@
 import base64
+import re
 from io import StringIO
+from timeit import default_timer
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from flask import render_template, request, flash
 from werkzeug.datastructures import CombinedMultiDict
 
-from server.TableInput import TableInput
 from server import app, socketio, UserError, ServerError
+from server.TableInput import TableInput
 from server.forms import InputDataForm
-from timeit import default_timer
+
+session_mapper = {}
+disconnected = []
 
 
 class ExecutionStats:
-    def __init__(self):
+    def __init__(self, sid):
+        self.sid = sid
         self.last_progress = 0
         self.last_time = None
         self.progress_diffs = []
@@ -31,11 +36,39 @@ class ExecutionStats:
             self.average_times.append(current_average)
 
             remaining_time = round(np.median(self.average_times) * (1 - value))  # The median should be relatively stable
-            socketio.emit('update remaining time', remaining_time)
+        else:
+            remaining_time = None
 
         self.last_progress = value
         self.last_time = time
-        socketio.emit('update progress', value)
+
+        data = {
+            'progress': value,
+            'remaining_time': remaining_time
+        }
+        socketio.emit('update_progress', data, room=session_mapper[self.sid])
+
+        # When using eventlet as webserver instead of the default development server, emits get stalled and only passed to the client at the end. This is most likely because the eventlet thread gets no CPU time (https://github.com/miguelgrinberg/Flask-SocketIO/issues/394#issuecomment-273842453).
+        # The following call flushes the emits and ensures that the client gets the status updates faster (https://stackoverflow.com/a/36204786)
+        # Note: at least currently, monkeypatching (https://stackoverflow.com/questions/34581255/python-flask-socketio-send-message-from-thread-not-always-working) seems not to be required which is another common cause of problems
+        socketio.sleep(0)
+
+
+@socketio.on('session_change')
+def test_connect(old_sid):
+    global session_mapper, disconnected
+
+    if re.search('^[a-z0-9]+$', old_sid) and old_sid in disconnected:
+        # Firefox immediately moves to the target page after the submit button is triggered. This leads to a new sid being generated (and another one when the response from the POST request is ready). Hence, the progress bar update fails since the connection to the old sid does not exist anymore
+        # As a solution, the client informs the server when a new connection is established from an old one (the sid is known from the hidden input field)
+        session_mapper[old_sid] = request.sid
+        disconnected.remove(old_sid)
+
+
+@socketio.on('disconnect')
+def test_disconnect():
+    global disconnected
+    disconnected.append(request.sid)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -63,9 +96,17 @@ def index():
             if len(df) == form.n_groups.data:
                 flash('The number of groups equals the number of users. It does not really make sense to run the algorithm in this case since there is only one solution. Please add more users or specify less groups.')
 
-            execution_stats = ExecutionStats()
+            if form.sid.data:
+                execution_stats = ExecutionStats(form.sid.data)
+                listener = execution_stats.progress_listener
+
+                # Default state: map sid to itself
+                session_mapper[form.sid.data] = form.sid.data
+            else:
+                listener = None
+
             alphas = [form.alpha1.data, form.alpha2.data, form.alpha3.data]
-            table_input = TableInput(df, form.n_groups.data, alphas, execution_stats.progress_listener)
+            table_input = TableInput(df, form.n_groups.data, alphas, listener)
 
             # Generate CSV file data and wrap it in a data URI
             table_data = table_input.table_data()

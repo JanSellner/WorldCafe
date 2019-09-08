@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, IntegerField, TextAreaField, FileField, RadioField, FloatField
-from wtforms.validators import DataRequired
+from wtforms import SubmitField, IntegerField, TextAreaField, FileField, RadioField, FloatField, HiddenField
+from wtforms.validators import DataRequired, Regexp
 from wtforms.widgets.html5 import NumberInput
 from flask_wtf.file import FileAllowed
 
@@ -13,5 +13,6 @@ class InputDataForm(FlaskForm):
     alpha1 = FloatField('alpha1', validators=[DataRequired()], widget=NumberInput(min=0, max=1, step='any'), default=1/3)
     alpha2 = FloatField('alpha2', validators=[DataRequired()], widget=NumberInput(min=0, max=1, step='any'), default=1/3)
     alpha3 = FloatField('alpha3', validators=[DataRequired()], widget=NumberInput(min=0, max=1, step='any'), default=1/3)
+    sid = HiddenField('sid', validators=[Regexp('^[a-z0-9]+$', message='Invalid session id.')])
     submit = SubmitField('Run!')
     progress_bar = 0

@@ -18,15 +18,31 @@
     </script>
     <script id="MathJax-script" async src="{{ url_for('static', filename='mathjax/tex-chtml.js') }}"></script>
     <script src="{{ url_for('static', filename='socket.io.slim.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
+    <script>
         var socket = io();
-        socket.on('update progress', function (value) {
-            document.getElementById('progress').setAttribute('value', value);
+        socket.on('connect', function() {
+            let sidField = document.getElementById('sid');
+            if (sidField.value) {
+                // Inform the server that the sid changed
+                socket.emit('session_change', sidField.value);
+
+                // Avoid form resubmission on page refresh (https://stackoverflow.com/a/45656609)
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+            }
+
+            sidField.value = socket.id;
         });
-        socket.on('update remaining time', function (time) {
-            const minutes = Math.floor(time / 60);
-            const seconds = time % 60;
-            document.getElementById('remaining_time').innerHTML = `Remaining time: ${minutes} m and ${seconds} s`;
+        socket.on('update_progress', function (data) {
+            console.log('s');
+            document.getElementById('progress').setAttribute('value', data['progress']);
+
+            if (data['remaining_time'] !== null) {
+                const minutes = Math.floor(data['remaining_time'] / 60);
+                const seconds = data['remaining_time'] % 60;
+                document.getElementById('remaining_time').innerHTML = `Remaining time: ${minutes} m and ${seconds} s`;
+            }
         });
     </script>
 </head>
@@ -41,6 +57,10 @@
     <h2 id="sec:input">Data Input</h2>
     <form action="/#result" method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
+        {{ form.sid() }}
+        {% for error in form.sid.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
 
         {{ form.n_groups.label }}: {{ form.n_groups() }}
         {% for error in form.n_groups.errors %}

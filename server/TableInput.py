@@ -13,7 +13,7 @@ from server import UserError, ServerError
 
 
 class TableInput:
-    def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, listener):
+    def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, listener=None):
         assert len(alphas) == 3, 'Three weights required'
         self.df = df
 
@@ -63,7 +63,8 @@ class TableInput:
                 try:
                     # The first lines denote the progress
                     progress = float(line)
-                    listener(progress)
+                    if listener is not None:
+                        listener(progress)
                 except ValueError:
                     try:
                         print(line)
