@@ -31,7 +31,7 @@ class GroupSearch:
         counter = Value('i', 0)
         seeds = range(self.n_seeds)
 
-        if self.n_iterations * self.n_seeds < 1000:
+        if self.n_iterations * self.n_seeds < 200:
             # Sequential execution
             init_counter(counter)
             results = []
