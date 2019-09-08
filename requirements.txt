@@ -1,0 +1,7 @@
+numpy
+scipy
+pandas
+Flask
+Flask-WTF
+Flask-SocketIO
+eventlet
