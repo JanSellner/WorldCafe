@@ -55,7 +55,7 @@
     <p>The problem with this approach is that only the users from the same group see each other. However, it might be desired that each user meets as many other users as possible during the three days so that we facilitate different discussions. Here, you can run an algorithm which tries to find a better allocation so that the number of different meetings between the users is as high as possible. Simply specify the number of groups/days as well as a list of users and run the algorithm. The results are then directly shown on this page.</p>
 
     <h2 id="sec:input">Data Input</h2>
-    <form action="/#result" method="POST" enctype="multipart/form-data">
+    <form action="/#sec:result" method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         {{ form.sid() }}
         {% for error in form.sid.errors %}
@@ -105,7 +105,7 @@
 
             <p>Note: changes in the weights may not have a direct effect on the output since the change of the solutions is discrete. Many different weight settings end up with the same result. However, there is usually a point where it tips over and you get a different result.</p>
 
-            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.44 171.06"><defs><style>.cls-1{fill:#fff;stroke-width:2px;}.cls-1,.cls-5{stroke:#000;stroke-miterlimit:10;}.cls-2{font-size:12px;}.cls-2,.cls-4{font-family:SegoeUI, Segoe UI;}.cls-3{font-size:10px;}.cls-3,.cls-6{font-family:SegoeUI-Italic, Segoe UI;font-style:italic;}.cls-4{font-style:normal;}.cls-5{fill:#c1272d;stroke-width:0.5px;}.cls-6{font-size:8px;}</style></defs><polygon id="triangle" class="cls-1" points="98.37 26.63 31.19 142.99 165.56 142.99 98.37 26.63"/><text id="meetings" class="cls-2" transform="translate(0 154.7)">Meetings<tspan class="cls-3"><tspan x="4.79" y="12">α</tspan><tspan class="cls-4" x="11.05" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="size" class="cls-2" transform="translate(88.63 10.2)">Size<tspan class="cls-3"><tspan x="-9.34" y="12">α</tspan><tspan class="cls-4" x="-3.08" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="foreigners" class="cls-2" transform="translate(145.8 154.7)">Foreigners<tspan class="cls-3"><tspan x="7.99" y="12">α</tspan><tspan class="cls-4" x="14.25" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><circle id="pointer" class="cls-5" cx="99.37" cy="98.2" r="4"/><text class="cls-6" transform="translate(85.54 23.45)">s</text><text class="cls-6" transform="translate(159.94 168.95) scale(1 0.83)">f</text><text class="cls-6" transform="translate(10.21 168.95) scale(0.85 1)">m</text></svg>
+            <svg id="parameter_selection" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.44 171.06"><defs><style>.cls-1{fill:#fff;stroke-width:2px;}.cls-1,.cls-5{stroke:#000;stroke-miterlimit:10;}.cls-2{font-size:12px;}.cls-2,.cls-4{font-family:SegoeUI, Segoe UI;}.cls-3{font-size:10px;}.cls-3,.cls-6{font-family:SegoeUI-Italic, Segoe UI;font-style:italic;}.cls-4{font-style:normal;}.cls-5{fill:#c1272d;stroke-width:0.5px;}.cls-6{font-size:8px;}</style></defs><polygon id="triangle" class="cls-1" points="98.37 26.63 31.19 142.99 165.56 142.99 98.37 26.63"/><text id="meetings" class="cls-2" transform="translate(0 154.7)">Meetings<tspan class="cls-3"><tspan x="4.79" y="12">α</tspan><tspan class="cls-4" x="11.05" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="size" class="cls-2" transform="translate(88.63 10.2)">Size<tspan class="cls-3"><tspan x="-9.34" y="12">α</tspan><tspan class="cls-4" x="-3.08" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="foreigners" class="cls-2" transform="translate(145.8 154.7)">Foreigners<tspan class="cls-3"><tspan x="7.99" y="12">α</tspan><tspan class="cls-4" x="14.25" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><circle id="pointer" class="cls-5" cx="99.37" cy="98.2" r="4"/><text class="cls-6" transform="translate(85.54 23.45)">s</text><text class="cls-6" transform="translate(159.94 168.95) scale(1 0.83)">f</text><text class="cls-6" transform="translate(10.21 168.95) scale(0.85 1)">m</text></svg>
 
             {{ form.alpha1(class='alphas') }}
             {{ form.alpha2(class='alphas') }}
@@ -260,7 +260,7 @@
                     d3.select('#foreigners > tspan > tspan:last-child').text('  = ' + d3.format('.2f')(alpha3));
                 }
 
-                const svg = document.querySelector('form > svg');
+                const svg = document.getElementById('parameter_selection');
                 const pointer = document.getElementById('pointer');
                 const triangle = document.getElementById('triangle');
 
@@ -395,7 +395,7 @@
     {% endif %}
 
     {% if stats is defined %}
-    <h2 id="result">Result</h2>
+    <h2 id="sec:result">Result</h2>
     {% macro table_day(data) %}
     <table>
         <thead>
