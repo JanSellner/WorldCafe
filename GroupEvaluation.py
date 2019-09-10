@@ -37,10 +37,10 @@ class GroupEvaluation:
 
         # Count how many students each group has on each day
         for i, day in enumerate(days):
-            counts_day = np.unique(day, return_counts=True)[1]
-            if len(counts_day) < len(self.groups):
-                # At least one slot did not get a student at all --> high error
-                return 10
+            # The group assignments are valid indices so we can use them directly to count the members per group
+            counts_day = np.zeros(len(self.groups), np.int32)
+            for value in day:
+                counts_day[value] += 1
 
             self.counts[i, :] = counts_day
 
