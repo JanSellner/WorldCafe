@@ -88,7 +88,7 @@ class TableInput:
             for group in group_numbers:
                 current_group = {
                     'members': self.df[day_alloc == group].values.tolist(),
-                    'name': f'Group {group}'
+                    'name': f'Group {group + 1}'
                 }
 
                 if self.foreigners is not None:

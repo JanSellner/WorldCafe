@@ -20,7 +20,7 @@ class GroupSearch:
     def __init__(self, n_groups: int, n_users: int, foreigners=None, alphas=None):
         assert n_groups <= 8, 'The number of groups should not be too high as otherwise the algorithm takes too long.'
 
-        self.groups = np.arange(1, n_groups + 1)
+        self.groups = np.arange(n_groups)
         self.n_users = n_users
 
         self.n_seeds = 24  # 24 might be a good choice because it has many divisors so that the number of seeds are likely to be divisible by the cpu number
@@ -67,17 +67,19 @@ class GroupSearch:
             print(counter.value / (self.n_iterations * self.n_seeds))
 
     def _start_random_walk(self, seed):
+        # General note: since the last day is implicitly defined by the previous days (no degree of freedom left), its combination is excluded in the following
+
         if seed == 0:
             # The randomly initialized starting configuration may lead to degenerated results in extreme settings like 9 users and 6 groups. For this case, it is possible that some groups don't get users at all. Since this is something we want to avoid, we add an evenly distributed starting configuration manually so that there is at least one configuration which fills each group
             # The goal is to produce something like the following (4 users and 3 groups):
-            # day1: 1 1 2 3
-            # day2: 2 2 3 1
+            # day1: 0 0 1 2
+            # day2: 1 1 2 0
             first_day = np.sort(np.resize(self.groups, self.n_users))
             days = [first_day]
 
-            for g in range(1, len(self.groups) - 1):
-                prev_day = days[g - 1]
-                next_day = prev_day % (len(self.groups)) + 1
+            for group in range(1, len(self.groups) - 1):
+                prev_day = days[group - 1]
+                next_day = (prev_day + 1) % len(self.groups)
                 days.append(next_day)
 
             days = np.asarray(days)
