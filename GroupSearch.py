@@ -23,7 +23,7 @@ class GroupSearch:
         self.groups = np.arange(1, n_groups + 1)
         self.n_users = n_users
 
-        self.n_seeds = 20
+        self.n_seeds = 24  # 24 might be a good choice because it has many divisors so that the number of seeds are likely to be divisible by the cpu number
         self.n_iterations = self.n_users * 2
 
         self.gval = GroupEvaluation(self.groups, self.n_users, foreigners, alphas)
