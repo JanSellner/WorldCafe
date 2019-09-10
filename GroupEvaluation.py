@@ -50,7 +50,7 @@ class GroupEvaluation:
 
         # The group sizes should be as close as possible to the optimum
         # The group sizes should be roughly equal
-        return np.mean(np.abs(normalized_counts - 1)) + np.std(normalized_counts)
+        return np.mean(np.abs(normalized_counts - 1)) + np.std(normalized_counts, ddof=1)
 
     def error_meetings(self, days: np.ndarray):
         meets_others = np.zeros(self.n_users)
@@ -71,7 +71,7 @@ class GroupEvaluation:
 
         # The percentage of other students met should be as high as possible
         # The percentages should be roughly equal
-        return 1 - np.mean(meets_others) + np.std(meets_others)
+        return 1 - np.mean(meets_others) + np.std(meets_others, ddof=1)
 
     def error_foreigners(self, days: np.ndarray):
         entropies = np.zeros((days.shape[0], len(self.groups)))
@@ -103,7 +103,7 @@ class GroupEvaluation:
 
         # The entropy values should be as low as possible
         # The entropy values should be roughly equal
-        return np.mean(entropies) + np.std(entropies)
+        return np.mean(entropies) + np.std(entropies, ddof=1)
 
     def error_components(self, days: np.ndarray):
         if days.shape[0] == len(self.groups) - 1:
