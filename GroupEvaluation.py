@@ -53,25 +53,25 @@ class GroupEvaluation:
         return np.mean(np.abs(normalized_counts - 1)) + np.std(normalized_counts, ddof=1)
 
     def error_meetings(self, days: np.ndarray):
-        meets_others = np.zeros(self.n_users)
+        meetings = np.zeros(self.n_users)
 
         # Count how many other students each student meets (including herself/himself)
         for i in range(self.n_users):
-            others_indices = set()
+            indices = set()
 
             for day in days:
                 # At each day, find the other team members (they are assigned to the same group number as the current student)
-                others_indices.update(np.where(day == day[i])[0])
+                indices.update(np.where(day == day[i])[0])
 
-            meets_others[i] = len(others_indices)
-            self.others[i] = others_indices  # For statistics
+            meetings[i] = len(indices)
+            self.others[i] = indices  # For statistics
 
         # Norm to [0; 1]
-        meets_others /= self.n_users
+        meetings /= self.n_users
 
         # The percentage of other students met should be as high as possible
         # The percentages should be roughly equal
-        return 1 - np.mean(meets_others) + np.std(meets_others, ddof=1)
+        return 1 - np.mean(meetings) + np.std(meetings, ddof=1)
 
     def error_foreigners(self, days: np.ndarray):
         entropies = np.zeros((days.shape[0], len(self.groups)))
