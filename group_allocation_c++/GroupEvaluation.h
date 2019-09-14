@@ -11,7 +11,11 @@ class GroupEvaluation
 {
 public:
 	GroupEvaluation(int n_groups, int n_users, std::vector<int> foreigners = {}, std::vector<double> alphas = {})
-		: n_groups(n_groups), n_days(n_groups), n_users(n_users), foreigners(std::move(foreigners)), alphas(std::move(alphas))
+		: n_groups(n_groups),
+	      n_days(n_groups),
+	      n_users(n_users),
+	      foreigners(std::move(foreigners)),
+	      alphas(std::move(alphas))
 	{
 		if (this->alphas.empty())
 		{

@@ -26,5 +26,14 @@
     <ClInclude Include="Matrix.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="GroupSearch.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallelExecution.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="args.hxx">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

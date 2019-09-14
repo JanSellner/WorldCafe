@@ -47,8 +47,8 @@ class TableInput:
         if iterations > 1000000:
             raise UserError('The computation would take too long for this configuration. Please specify less groups and/or less users.')
 
-        # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
-        cmd = ['python', 'group_allocation_python/group_allocation.py', '--n_groups', str(n_groups), '--n_users', str(len(self.df))]
+        # The algorithm is run as a separate process
+        cmd = ['group_allocation_c++/x64/Release/group_allocation_c++.exe', '--n_groups', str(n_groups), '--n_users', str(len(self.df))]
 
         if self.foreigners is not None:
             cmd.append('--foreigners')

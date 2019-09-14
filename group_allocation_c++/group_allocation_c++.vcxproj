@@ -156,8 +156,11 @@
     <ClCompile Include="group_allocation_c++.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="args.hxx" />
     <ClInclude Include="GroupEvaluation.h" />
+    <ClInclude Include="GroupSearch.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="ParallelExecution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
