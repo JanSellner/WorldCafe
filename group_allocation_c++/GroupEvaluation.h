@@ -19,21 +19,23 @@ public:
 	{
 		if (this->alphas.empty())
 		{
-			int n_alphas = this->foreigners.empty() ? 2 : 3;
+			const int n_alphas = this->foreigners.empty() ? 2 : 3;
 			this->alphas = std::vector<double>(n_alphas, 1.0 / n_alphas);
 		}
 	}
 
-	double error_group_sizes(Matrix<int>& days)
+	double error_group_sizes(const Matrix<int>& days) const
 	{
 		Matrix<int> counts(n_days, n_groups);
-		for (size_t row = 0; row < days.rows; ++row)
+		for (size_t day = 0; day < days.rows; ++day)
 		{
-			const std::valarray<int> day = days.row(row);
-
-			counts.row(row) = count_unique(day);
+			for (size_t user = 0; user < days.columns; ++user)
+			{
+				const int group = days(day, user);
+				counts(day, group)++;
+			}
 		}
-
+		
 		std::valarray<double> normalized_counts(counts.data.size());
 		double mean = 0.0;
 		double mean_abs = 0.0;
@@ -41,7 +43,7 @@ public:
 		// We can calculate both means in the same loop
 		for (size_t i = 0; i < counts.data.size(); ++i)
 		{
-			double normalized = counts.data[i] / (static_cast<double>(n_users) / n_groups);
+			const double normalized = counts.data[i] / (static_cast<double>(n_users) / n_groups);
 			normalized_counts[i] = normalized;	// Required for the variance calculation later
 
 			mean += normalized;
@@ -52,7 +54,7 @@ public:
 		mean /= size;
 		mean_abs /= size;
 
-		double std = std::sqrt(std::accumulate(std::begin(normalized_counts), std::end(normalized_counts), 0.0, [&mean, size](const double accumulator, const double val)
+		const double std = std::sqrt(std::accumulate(std::begin(normalized_counts), std::end(normalized_counts), 0.0, [&mean, size](const double accumulator, const double val)
 		{
 			return accumulator + (val - mean) * (val - mean) / (size - 1);
 		}));
@@ -148,19 +150,6 @@ public:
 		}
 
 		return error;
-	}
-
-private:
-	std::valarray<int> count_unique(const std::valarray<int>& day)
-	{
-		std::valarray<int> counts(day.size());
-
-		for (size_t i = 0; i < counts.size(); ++i)
-		{
-			counts[day[i]]++;
-		}
-
-		return counts;
 	}
 
 private:
