@@ -55,8 +55,7 @@ class TableInput:
             cmd.append(json.dumps(self.foreigners, cls=JSONNumpyEncoder))
 
         cmd.append('--alphas')
-        for alpha in self.alphas:
-            cmd.append(str(alpha))
+        cmd.append(json.dumps(self.alphas, cls=JSONNumpyEncoder))
 
         # Popen works asynchronously (approach inspired by https://stackoverflow.com/a/28319191)
         with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
