@@ -55,9 +55,11 @@ public:
 			{}
 		};
 		std::vector<Result> results(n_seeds);
-		
+
+#ifndef PRINT_NO_PROGRESS
 		int total = n_iterations * n_seeds;// TODO: int or double?
 		int counter = 0;
+#endif
 
 		ParallelExecution pe(6);
 		pe.parallel_for(0, n_seeds - 1, [&](const size_t seed)
@@ -92,11 +94,13 @@ public:
 					}
 				} while (std::next_permutation(std::begin(current_groups), std::end(current_groups)));
 
+#ifndef PRINT_NO_PROGRESS
 				pe.setResult([&]()
 				{
 					counter++;
 					std::cout << static_cast<double>(counter) / total << std::endl;
 				});
+#endif
 			}
 
 			results[seed] = Result(days, error);
