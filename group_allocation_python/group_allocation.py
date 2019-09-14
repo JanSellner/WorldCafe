@@ -4,7 +4,6 @@ import sys
 import numpy as np
 
 from GroupSearch import GroupSearch
-from JSONNumpyEncoder import JSONNumpyEncoder
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description='Finds a good group allocation.')
@@ -51,4 +50,4 @@ if __name__ == '__main__':
 
     group_search = GroupSearch(args.n_groups, args.n_users, foreigners, alphas)
     alloc = group_search.find_best_allocation()
-    print(json.dumps(alloc, cls=JSONNumpyEncoder))
+    print(json.dumps(alloc.tolist()))

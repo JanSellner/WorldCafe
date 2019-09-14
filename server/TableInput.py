@@ -7,8 +7,8 @@ import numpy as np
 import pandas as pd
 from flask import flash
 
-from GroupEvaluation import GroupEvaluation
-from GroupSearch import GroupSearch
+from group_allocation_python.GroupEvaluation import GroupEvaluation
+from group_allocation_python.GroupSearch import GroupSearch
 from JSONNumpyEncoder import JSONNumpyEncoder
 from server import UserError, ServerError
 
@@ -48,7 +48,7 @@ class TableInput:
             raise UserError('The computation would take too long for this configuration. Please specify less groups and/or less users.')
 
         # Run the algorithm as separate python process (this simplifies multiprocessing a lot)
-        cmd = ['python', 'group_allocation.py', '--n_groups', str(n_groups), '--n_users', str(len(self.df))]
+        cmd = ['python', 'group_allocation_python/group_allocation.py', '--n_groups', str(n_groups), '--n_users', str(len(self.df))]
 
         if self.foreigners is not None:
             cmd.append('--foreigners')

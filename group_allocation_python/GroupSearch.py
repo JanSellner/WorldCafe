@@ -4,7 +4,7 @@ import numpy as np
 import itertools
 import math
 
-from GroupEvaluation import GroupEvaluation
+from group_allocation_python.GroupEvaluation import GroupEvaluation
 
 
 # Counter for the multiprocessing environment to report the current progress (https://stackoverflow.com/a/2080668)
