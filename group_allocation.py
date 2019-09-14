@@ -8,8 +8,8 @@ from JSONNumpyEncoder import JSONNumpyEncoder
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description='Finds a good group allocation.')
-    parser.add_argument('--n_groups', type=int, help='Number of groups/days', required=True)
-    parser.add_argument('--n_users', type=int, help='Number of users', required=True)
+    parser.add_argument('--n_groups', type=int, help='Number of groups/days.', required=True)
+    parser.add_argument('--n_users', type=int, help='Number of users.', required=True)
     parser.add_argument('--foreigners', type=str, help='Information about the foreigner state of each user passed as JSON array with either 0 (non-foreigner) or 1 (foreigner) values.')
     parser.add_argument('--alphas', type=str, help='Weights for the individual components of the error function passed as JSON array.')
 
