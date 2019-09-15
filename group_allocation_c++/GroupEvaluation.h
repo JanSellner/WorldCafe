@@ -85,13 +85,7 @@ public:
 			meetings[current_user] = indices.size() / static_cast<double>(n_users);
 		}
 
-		const double mean = std::accumulate(std::begin(meetings), std::end(meetings), 0.0) / meetings.size();
-
-		const size_t size = meetings.size();
-		const double std = std::sqrt(std::accumulate(std::begin(meetings), std::end(meetings), 0.0, [mean, size](const double accumulator, const double val)
-		{
-			return accumulator + (val - mean) * (val - mean) / (size - 1);
-		}));
+		auto [mean, std] = mean_std(meetings);
 
 		return 1 - mean + std;
 	}
@@ -126,14 +120,7 @@ public:
 			}
 		}
 
-		const std::valarray<double>& values = entropies.data;
-		const double mean = std::accumulate(std::begin(values), std::end(values), 0.0) / values.size();
-
-		const size_t size = values.size();
-		const double std = std::sqrt(std::accumulate(std::begin(values), std::end(values), 0.0, [mean, size](const double accumulator, const double val)
-		{
-			return accumulator + (val - mean) * (val - mean) / (size - 1);
-		}));
+		auto [mean, std] = mean_std(entropies.data);
 
 		return mean + std;
 	}
@@ -147,6 +134,19 @@ public:
 		}
 
 		return error;
+	}
+
+	static std::pair<double, double> mean_std(const std::valarray<double>& values)
+	{
+		const double mean = std::accumulate(std::begin(values), std::end(values), 0.0) / values.size();
+
+		const size_t size = values.size();
+		const double std = std::sqrt(std::accumulate(std::begin(values), std::end(values), 0.0, [mean, size](const double accumulator, const double val)
+		{
+			return accumulator + (val - mean) * (val - mean) / (size - 1);
+		}));
+
+		return { mean, std };
 	}
 
 private:

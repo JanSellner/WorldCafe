@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <valarray>
+#include <regex>
+#include "args.hxx"
 #include "Matrix.h"
 #include "GroupEvaluation.h"
 #include "GroupSearch.h"
-#include "args.hxx"
-#include <regex>
 
 template<typename T>
 std::vector<T> parse_json(std::string argument, const std::string& error_message)

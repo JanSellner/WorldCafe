@@ -6,10 +6,8 @@
 #include "../GroupSearch.h"
 
 
-int n_groups = 5;
+int n_groups = 7;
 int n_users = 10;
-
-// TODO: mean, std function
 
 int main()
 {
@@ -26,7 +24,7 @@ int main()
 	GroupSearch group_search(n_groups, n_users, foreigners);
 
 	const size_t n_runs = 10;
-	std::vector<double> times(n_runs);
+	std::valarray<double> times(n_runs);
 	for (size_t i = 0; i < times.size(); ++i)
 	{
 		auto begin = std::chrono::high_resolution_clock::now();
@@ -45,12 +43,7 @@ int main()
 		std::cout << times[i] << " ms" << std::endl;
 	}
 
-	double mean = std::accumulate(times.begin(), times.end(), 0.0) / times.size();
-	auto size = times.size();
-	double std = std::sqrt(std::accumulate(times.begin(), times.end(), 0.0, [&mean, size](const double accumulator, const double val)
-	{
-		return accumulator + (val - mean) * (val - mean) / (size - 1);
-	}));
+	auto [mean, std] = GroupEvaluation::mean_std(times);
 	
 	std::cout << mean << " ms (std = " << std << ")" << std::endl;
 
