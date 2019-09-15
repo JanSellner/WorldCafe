@@ -27,7 +27,7 @@ int main()
 	// GroupEvaluation gval(n_groups, n_users, foreigners);
 	GroupSearch group_search(n_groups, n_users, foreigners);
 
-	size_t n_runs = 10;
+	const size_t n_runs = 10;
 	std::vector<double> times(n_runs);
 	for (size_t i = 0; i < times.size(); ++i)
 	{

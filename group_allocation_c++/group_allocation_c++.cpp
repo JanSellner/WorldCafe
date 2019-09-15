@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 		{
 			foreigners = parse_json<int>(args::get(args_foreigners), "Could not parse the foreigners list. Please provide a valid JSON array.");
 
-			if (n_users != foreigners.size())
+			if (n_users != static_cast<int>(foreigners.size()))
 			{
 				throw args::ValidationError("A foreigner state must be given for each user (" + std::to_string(n_users) + " users and " + std::to_string(foreigners.size()) + " foreigner values given).");
 			}

@@ -50,7 +50,7 @@ public:
 			mean_abs += std::abs(normalized - 1);
 		}
 
-		size_t size = normalized_counts.size();
+		const size_t size = normalized_counts.size();
 		mean /= size;
 		mean_abs /= size;
 
@@ -62,34 +62,33 @@ public:
 		return mean_abs + std;
 	}
 
-	double error_meetings(Matrix<int>& days)
+	double error_meetings(const Matrix<int>& days) const
 	{
 		std::valarray<double> meetings(0.0, n_users);
 
-		for (size_t current = 0; current < meetings.size(); ++current)
+		for (size_t current_user = 0; current_user < meetings.size(); ++current_user)
 		{
 			std::unordered_set<size_t> indices;
 
-			for (size_t row = 0; row < days.rows; ++row)
+			for (size_t day = 0; day < days.rows; ++day)
 			{
-				const std::valarray<int> day = days.row(row);
-				for (size_t others = 0; others < day.size(); ++others)
+				for (size_t other_user = 0; other_user < days.columns; ++other_user)
 				{
-					if (day[others] == day[current])
+					if (days(day, current_user) == days(day, other_user))
 					{
-						indices.insert(others);
+						indices.insert(other_user);
 					}
 				}
 			}
 
 			// Normalize meetings directly
-			meetings[current] = indices.size() / static_cast<double>(n_users);
+			meetings[current_user] = indices.size() / static_cast<double>(n_users);
 		}
 
-		double mean = std::accumulate(std::begin(meetings), std::end(meetings), 0.0) / meetings.size();
+		const double mean = std::accumulate(std::begin(meetings), std::end(meetings), 0.0) / meetings.size();
 
-		size_t size = meetings.size();
-		double std = std::sqrt(std::accumulate(std::begin(meetings), std::end(meetings), 0.0, [mean, size](const double accumulator, const double val)
+		const size_t size = meetings.size();
+		const double std = std::sqrt(std::accumulate(std::begin(meetings), std::end(meetings), 0.0, [mean, size](const double accumulator, const double val)
 		{
 			return accumulator + (val - mean) * (val - mean) / (size - 1);
 		}));
