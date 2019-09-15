@@ -44,7 +44,7 @@ class TableInput:
         self.alphas = alphas
 
         iterations = GroupSearch(n_groups, len(self.df)).total_iterations()
-        if iterations > 1000000:
+        if iterations > 10_000_000:
             raise UserError('The computation would take too long for this configuration. Please specify less groups and/or less users.')
 
         # The algorithm is run as a separate process
