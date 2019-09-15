@@ -10,7 +10,6 @@ int n_groups = 5;
 int n_users = 10;
 
 // TODO: mean, std function
-// TODO: number of threads
 
 int main()
 {

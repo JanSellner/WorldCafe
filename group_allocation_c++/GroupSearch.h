@@ -61,7 +61,7 @@ public:
 		int counter = 0;
 #endif
 
-		ParallelExecution pe(6);
+		ParallelExecution pe;
 		pe.parallel_for(0, n_seeds - 1, [&](const size_t seed)
 		{
 			std::mt19937_64 generator(seed);
