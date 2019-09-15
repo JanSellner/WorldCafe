@@ -88,7 +88,7 @@ class GroupEvaluation:
 
                 # Calculate the fraction of foreigners and non-foreigners per group
                 probabilities = np.zeros(2)
-                unique, counts = np.unique(foreigners_group, return_counts=True)
+                unique, counts = np.unique(foreigners_group, return_counts=True)  # Number of foreigners and non-foreigners
                 for value, count in zip(unique, counts):
                     probabilities[value] = count / len(foreigners_group)
 

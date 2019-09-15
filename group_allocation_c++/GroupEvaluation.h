@@ -96,43 +96,41 @@ public:
 		return 1 - mean + std;
 	}
 
-	double error_foreigners(Matrix<int>& days)
+	double error_foreigners(const Matrix<int>& days)
 	{
 		Matrix<double> entropies(n_days, n_groups);
-		for (size_t row = 0; row < days.rows; ++row)
+		for (size_t day = 0; day < days.rows; ++day)
 		{
-			const std::valarray<int> day = days.row(row);
-
 			for (int group = 0; group < n_groups; ++group)
 			{
 				std::valarray<uchar> counts(static_cast<uchar>(0), 2);
-				for (size_t d = 0; d < day.size(); ++d)
+				for (size_t user = 0; user < days.columns; ++user)
 				{
-					if (day[d] == group)
+					if (days(day, user) == group)
 					{
-						counts[foreigners[d]]++;
+						counts[foreigners[user]]++;
 					}
 				}
 
 				if (counts[0] == 0 || counts[1] == 0)
 				{
-					entropies(row, group) = 1;
+					entropies(day, group) = 1;
 					continue;
 				}
 
-				double total = counts.sum();
+				const double total = counts.sum();
 				std::valarray<double> probabilities = { counts[0] / total, counts[1] / total };
 
-				double entropy = -probabilities[0] * std::log2(probabilities[0]) - probabilities[1] * std::log2(probabilities[1]);
-				entropies(row, group) = 1 - entropy;
+				const double entropy = -probabilities[0] * std::log2(probabilities[0]) - probabilities[1] * std::log2(probabilities[1]);
+				entropies(day, group) = 1 - entropy;
 			}
 		}
 
-		auto values = entropies.data;
-		double mean = std::accumulate(std::begin(values), std::end(values), 0.0) / values.size();
+		const std::valarray<double>& values = entropies.data;
+		const double mean = std::accumulate(std::begin(values), std::end(values), 0.0) / values.size();
 
-		size_t size = values.size();
-		double std = std::sqrt(std::accumulate(std::begin(values), std::end(values), 0.0, [mean, size](const double accumulator, const double val)
+		const size_t size = values.size();
+		const double std = std::sqrt(std::accumulate(std::begin(values), std::end(values), 0.0, [mean, size](const double accumulator, const double val)
 		{
 			return accumulator + (val - mean) * (val - mean) / (size - 1);
 		}));
@@ -140,7 +138,7 @@ public:
 		return mean + std;
 	}
 
-	double error_total(Matrix<int>& days)
+	double error_total(const Matrix<int>& days)
 	{
 		double error = error_group_sizes(days) * alphas[0] + error_meetings(days) * alphas[1];
 		if (!foreigners.empty())

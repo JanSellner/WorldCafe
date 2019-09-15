@@ -10,7 +10,6 @@ int n_groups = 5;
 int n_users = 10;
 
 // TODO: mean, std function
-// TODO: const std::valarray<int> day = days.row(row); produces a copy (http://www.cplusplus.com/reference/valarray/slice_array/)
 // TODO: number of threads
 
 int main()
@@ -37,7 +36,7 @@ int main()
 		{
 			// gval.error_total(alloc_start);
 			// gval.error_group_sizes(alloc_start);
-			// error_meetings(alloc_start);
+			// gval.error_meetings(alloc_start);
 			// gval.error_foreigners(alloc_start);
 			group_search.find_best_allocation();
 		}
