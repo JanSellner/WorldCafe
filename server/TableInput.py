@@ -79,9 +79,16 @@ class TableInput:
 
     def table_data(self):
         days = []
-        for idx in range(self.alloc.shape[0]):
-            day_alloc = self.alloc[idx, :]
+        n_groups = self.alloc.shape[0]
+
+        for day in range(n_groups):
+            day_alloc = self.alloc[day, :]
             group_numbers = np.unique(day_alloc)
+
+            if len(group_numbers) < n_groups:
+                missing_groups = np.setdiff1d(np.arange(n_groups), group_numbers) + 1
+                for missing in missing_groups:
+                    flash(fr'There are no users assigned to the group {missing} on the day {day + 1}. Increase the weight for \(\alpha_s\) to prevent this.')
 
             group_data = []
             for group in group_numbers:
