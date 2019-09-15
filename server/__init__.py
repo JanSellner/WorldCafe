@@ -1,5 +1,4 @@
 from flask import Flask
-from config import Config
 from flask_socketio import SocketIO
 
 
@@ -17,7 +16,6 @@ class ServerError(ValueError):
 
 
 app = Flask(__name__)
-app.config.from_object(Config)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cookie=None)
 
 from server import routes

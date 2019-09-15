@@ -16,3 +16,7 @@ class InputDataForm(FlaskForm):
     sid = HiddenField('sid', validators=[Regexp('^[a-z0-9]+$', message='Invalid session id.')])
     submit = SubmitField('Run!')
     progress_bar = 0
+
+    def __init__(self, *args, **kwargs):
+        # csrf protection is disabled since this would require a session cookie
+        super(InputDataForm, self).__init__(csrf_enabled=False, *args, **kwargs)

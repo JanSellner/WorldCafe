@@ -5,7 +5,6 @@ import subprocess
 
 import numpy as np
 import pandas as pd
-from flask import flash
 
 from group_allocation_python.GroupEvaluation import GroupEvaluation
 from group_allocation_python.GroupSearch import GroupSearch
@@ -14,9 +13,10 @@ from server import UserError, ServerError
 
 
 class TableInput:
-    def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, listener=None):
+    def __init__(self, df: pd.DataFrame, n_groups: int, alphas: list, warnings: list, listener=None):
         assert len(alphas) == 3, 'Three weights required'
         self.df = df
+        self.warnings = warnings
 
         if len(self.df) < n_groups:
             raise UserError('There are not enough users available to fill the groups.')
@@ -39,7 +39,8 @@ class TableInput:
                 alphas[0] /= alphas_total
                 alphas[1] /= alphas_total
 
-                flash(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they had not summed up to 1.')
+                print('test')
+                self.warnings.append(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they had not summed up to 1.')
 
         self.alphas = alphas
 
@@ -88,7 +89,7 @@ class TableInput:
             if len(group_numbers) < n_groups:
                 missing_groups = np.setdiff1d(np.arange(n_groups), group_numbers) + 1
                 for missing in missing_groups:
-                    flash(fr'There are no users assigned to the group {missing} on the day {day + 1}. Increase the weight for \(\alpha_s\) to prevent this.')
+                    self.warnings.append(fr'There are no users assigned to the group {missing} on the day {day + 1}. Increase the weight for \(\alpha_s\) to prevent this.')
 
             group_data = []
             for group in group_numbers:

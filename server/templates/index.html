@@ -57,7 +57,6 @@
 
     <h2 id="sec:input">Data Input</h2>
     <form action="/#sec:result" method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
         {{ form.sid() }}
         {% for error in form.sid.errors %}
             <span class="error">{{ error }}</span>
@@ -429,13 +428,9 @@
     {% endmacro %}
 
     <ul>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <li class="warning">{{ message }}</li>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
+        {% for warning in warnings %}
+            <li class="warning">{{ warning }}</li>
+        {% endfor %}
         <li>
             {{ stats.members.names|length }} users in total.
             {% if 'n_foreigners' in stats %}
