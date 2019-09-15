@@ -32,7 +32,7 @@ std::vector<T> parse_json(std::string argument, const std::string& error_message
 
 int main(int argc, char** argv)
 {
-	args::ArgumentParser parser("Finds a good group allocation.");
+	args::ArgumentParser parser("Finds a good group allocation.", "This program was compiled at " + std::string(__DATE__) + " " + std::string(__TIME__) + ".");
 	args::HelpFlag help(parser, "help", "Display the help menu.", { 'h', "help" });
 	args::ValueFlag<int> args_n_groups(parser, "n_groups", "Number of groups/days.", { "n_groups" }, args::Options::Required | args::Options::Single);
 	args::ValueFlag<int> args_n_users(parser, "n_users", "Number of users.", { "n_users" }, args::Options::Required | args::Options::Single);
