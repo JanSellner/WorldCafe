@@ -57,7 +57,7 @@ public:
 		std::vector<Result> results(n_seeds);
 
 #ifndef PRINT_NO_PROGRESS
-		int total = n_iterations * n_seeds;// TODO: int or double?
+		const int total = n_iterations * n_seeds;
 		int counter = 0;
 #endif
 
