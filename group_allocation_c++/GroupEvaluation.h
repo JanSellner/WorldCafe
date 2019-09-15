@@ -10,7 +10,7 @@ using uchar = unsigned char;
 class GroupEvaluation
 {
 public:
-	GroupEvaluation(int n_groups, int n_users, std::vector<int> foreigners = {}, std::vector<double> alphas = {})
+	GroupEvaluation(const int n_groups, const int n_users, std::vector<int> foreigners = {}, std::vector<double> alphas = {})
 		: n_groups(n_groups),
 	      n_days(n_groups),
 	      n_users(n_users),

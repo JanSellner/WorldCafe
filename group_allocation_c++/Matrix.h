@@ -8,8 +8,8 @@ class Matrix
 {
 public:
 	std::valarray<T> data;
-	size_t columns;
-	size_t rows;
+	size_t columns = 0;
+	size_t rows = 0;
 
 	Matrix() = default;
 
@@ -20,7 +20,7 @@ public:
 		rows = this->data.size() / columns;
 	}
 
-	Matrix(size_t rows, size_t columns)
+	Matrix(const size_t rows, const size_t columns)
 		: data(static_cast<T>(0), rows* columns),
 		  columns(columns),
 		  rows(rows)

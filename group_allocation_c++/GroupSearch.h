@@ -11,14 +11,14 @@
 class GroupSearch
 {
 public:
-	GroupSearch(int n_groups, int n_users, std::vector<int> foreigners = {}, std::vector<double> alphas = {})
+	GroupSearch(const int n_groups, const int n_users, std::vector<int> foreigners = {}, std::vector<double> alphas = {})
 		: gval(n_groups, n_users, std::move(foreigners), std::move(alphas)),
 	      groups(n_groups),
 	      days_init(n_groups, n_users)
 	{
-		for (int i = 0; i < this->groups.size(); ++i)
+		for (size_t i = 0; i < this->groups.size(); ++i)
 		{
-			this->groups[i] = i;
+			this->groups[i] = static_cast<int>(i);
 		}
 
 		this->n_seeds = 24;
@@ -46,7 +46,7 @@ public:
 		struct Result
 		{
 			Matrix<int> allocation;
-			double error;
+			double error = 0.0;
 
 			Result() = default;
 			Result(Matrix<int> allocation, const double error)
@@ -62,10 +62,10 @@ public:
 #endif
 
 		ParallelExecution pe;
-		pe.parallel_for(0, n_seeds - 1, [&](const size_t seed)
+		pe.parallel_for(0, static_cast<size_t>(n_seeds) - 1, [&](const size_t seed)
 		{
 			std::mt19937_64 generator(seed);
-			const std::uniform_int_distribution<> user_generator(0, days_init.columns - 1);
+			const std::uniform_int_distribution<> user_generator(0, static_cast<int>(days_init.columns - 1));
 
 			Matrix<int> days(days_init);
 			if (seed > 0)
@@ -113,10 +113,10 @@ public:
 	}
 
 private:
-	void random_shuffle(Matrix<int>& days, int seed) const
+	void random_shuffle(Matrix<int>& days, const size_t seed) const
 	{
 		std::mt19937_64 generator(seed);
-		const std::uniform_int_distribution<> row_generator(0, days.rows - 1);
+		const std::uniform_int_distribution<> row_generator(0, static_cast<int>(days.rows - 1));
 
 		for (size_t i = 0; i < days.data.size(); ++i)
 		{
