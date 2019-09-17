@@ -92,12 +92,15 @@ def index():
             if df.empty:
                 raise UserError('No data provided.')
 
-            warnings = []
+            messages = {
+                'notes': [],
+                'warnings': []
+            }
 
             if any(df.duplicated()):
-                warnings.append(f'Duplicate lines found in the input ({str(df[df.duplicated()].iloc[:, 0].tolist())}). Please check whether your input contains some errors. The lines are not removed and the algorithm proceeds as usual.')
+                messages['warnings'].append(f'Duplicate lines found in the input ({str(df[df.duplicated()].iloc[:, 0].tolist())}). Please check whether your input contains some errors. The lines are not removed and the algorithm proceeds as usual.')
             if len(df) == form.n_groups.data:
-                warnings.append('The number of groups equals the number of users. It does not really make sense to run the algorithm in this case since there is only one solution. Please add more users or specify less groups.')
+                messages['warnings'].append('The number of groups equals the number of users. It does not really make sense to run the algorithm in this case since there is only one solution. Please add more users or specify less groups.')
 
             if form.sid.data:
                 execution_stats = ExecutionStats(form.sid.data)
@@ -109,7 +112,7 @@ def index():
                 listener = None
 
             alphas = [form.alpha1.data, form.alpha2.data, form.alpha3.data]
-            table_input = TableInput(df, form.n_groups.data, alphas, warnings, listener)
+            table_input = TableInput(df, form.n_groups.data, alphas, messages, listener)
 
             # Generate CSV file data and wrap it in a data URI
             table_data = table_input.table_data()
@@ -118,7 +121,7 @@ def index():
 
             form.progress_bar = 1
 
-            return render_template('index.html', form=form, table=table_data, stats=table_input.stats(), csv_data=csv_base64, warnings=warnings)
+            return render_template('index.html', form=form, table=table_data, stats=table_input.stats(), csv_data=csv_base64, messages=messages)
         else:
             return render_template('index.html', form=form)
     except UserError as error:

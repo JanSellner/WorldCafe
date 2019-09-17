@@ -428,8 +428,11 @@
     {% endmacro %}
 
     <ul>
-        {% for warning in warnings %}
+        {% for warning in messages.warnings %}
             <li class="warning">{{ warning }}</li>
+        {% endfor %}
+        {% for note in messages.notes %}
+            <li>{{ note }}</li>
         {% endfor %}
         <li>
             {{ stats.members.names|length }} users in total.
