@@ -83,7 +83,7 @@
             {{ (form.selection_type|list)[1] }}
             {{ (form.selection_type|list)[1].label }}
             <div class="tab">
-                <p>Please upload a valid CSV file according to the following specification:</p>
+                <p>Please upload a valid CSV file according to the following specification (<a href="{{ url_for('static', filename='example_data.csv') }}">example file</a>):</p>
                 <ul>
                     <li>Comma (<code>,</code>) is used as separator.</li>
                     <li>First row must be a header row.</li>
