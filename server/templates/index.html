@@ -51,9 +51,9 @@
     <h1>Group Allocation</h1>
     <p>Have you ever been in the situation where you had to calculate an allocation of users to groups across several days with changing groups per day? Then, you are on the right page. If you already know the problem, go directly to the <a href="#sec:input">input section</a> and specify your situation. If not, keep on reading...</p>
 
-    <p>To understand the problem, suppose we have 30 users and three events A, B and C happening per day with a total time budget of three days. We split the users into three groups à 10 people (group I, II and III) and assign each group to an event. So, for the first day we may end up with the allocation A-I, B-II and C-III. On the second day, the we assign the groups to different events, e.g. A-II, B-III, C-I (this leaves the allocation A-III, B-I, and C-II for the last day). In the end, each user participated in each event exactly once.</p>
+    <p>To understand the problem, suppose we have 30 users and three events A, B and C happening per day with a total time budget of three days. We split the users into three groups à 10 people (group I, II and III) and assign each group to an event. So, for the first day we may end up with the allocation A-I, B-II and C-III. On the second day, we assign the groups to different events, e.g. A-II, B-III, C-I (this leaves A-III, B-I, and C-II for the last day). In the end, each user participated in each event exactly once.</p>
 
-    <p>The problem with this approach is that only the users from the same group see each other. However, it might be desired that each user meets as many other users as possible during the three days so that we facilitate different discussions. Here, you can run an algorithm which tries to find a better allocation so that the number of different meetings between the users is as high as possible. Simply specify the number of groups/days as well as a list of users and run the algorithm. The results are then directly shown on this page.</p>
+    <p>The problem with this approach is that only the users from the same group see each other. However, it might be desired that each user meets as many other users as possible during the three days so that different discussions can be facilitated. Here, you can run an algorithm which tries to find a better allocation so that the number of meetings between the users is as high as possible. Simply specify the number of groups/days as well as a list of users and run the algorithm. The results are then directly shown on this page.</p>
 
     <h2 id="sec:input">Data Input</h2>
     <form action="/#sec:result" method="POST" enctype="multipart/form-data">
@@ -85,7 +85,7 @@
             <div class="tab">
                 <p>Please upload a valid CSV file according to the following specification:</p>
                 <ul>
-                    <li>Comma (<code>,</code>) as separator.</li>
+                    <li>Comma (<code>,</code>) is used as separator.</li>
                     <li>First row must be a header row.</li>
                     <li>If you want the names of the users to appear in the output, include either two columns <code>First Name</code> and <code>Family Name</code> or just one column <code>Name</code>.</li>
                     <li>Optionally, one column can be <code>Foreigner</code> with either <code>true</code> or <code>false</code> values. This is interpreted by the system and it tries to find a solution which equally distributes foreigners and non-foreigners over the days.</li>
@@ -101,9 +101,9 @@
         <details>
             <summary>Advanced: <span class="normal">specify the \(\alpha\) weights manually</span></summary>
 
-            <p>It is possible to exercise some control over the execution of the algorithm by specifying explicit weights \(\alpha\) for the error function. This allows to shift the focus on different aspects of the optimization. For example, it is sometimes possible to increase the average number of meetings of the users while approving less consistent group sizes. Move the red circle inside the triangle to change your preferences. With increasing weight value, higher importance is given to the corresponding part of the error functions. This means that this part is preferred in the optimization process yielding lower error values. For example, when \(\alpha_s\) increases, usually \(E_s\) decreases resulting in better group sizes.</p>
+            <p>It is possible to exercise some control over the execution of the algorithm by explicitly specifying the \(\alpha\) weights for the error function. This allows to shift the focus on different aspects of the optimization. For example, it is sometimes possible to increase the average number of meetings of the users while approving less consistent group sizes. The focus can be adjusted by moving the red circle inside the triangle below. With increasing weight value, higher importance is given to the corresponding part of the error function. This means that this part is preferred in the optimization process yielding lower error values. For example, when \(\alpha_s\) increases, usually \(E_s\) decreases resulting in better group sizes.</p>
 
-            <p>Note: changes in the weights may not have a direct effect on the output since the change of the solutions is discrete. Many different weight settings end up with the same result. However, there is usually a point where it tips over and you get a different result.</p>
+            <p>Note: a change of the weights may not directly result in a different output since the solution landscape tends to behave in a discrete way. Many weight settings end up with the same allocation (or, more precisely, an equivalent allocation which has the same error characteristics). However, there is usually a point where it tips over and you get a different result.</p>
 
             <svg id="parameter_selection" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.44 171.06"><defs><style>.cls-1{fill:#fff;stroke-width:2px;}.cls-1,.cls-5{stroke:#000;stroke-miterlimit:10;}.cls-2{font-size:12px;}.cls-2,.cls-4{font-family:SegoeUI, Segoe UI;}.cls-3{font-size:10px;}.cls-3,.cls-6{font-family:SegoeUI-Italic, Segoe UI;font-style:italic;}.cls-4{font-style:normal;}.cls-5{fill:#c1272d;stroke-width:0.5px;}.cls-6{font-size:8px;}</style></defs><polygon id="triangle" class="cls-1" points="98.37 26.63 31.19 142.99 165.56 142.99 98.37 26.63"/><text id="meetings" class="cls-2" transform="translate(0 154.7)">Meetings<tspan class="cls-3"><tspan x="4.79" y="12">α</tspan><tspan class="cls-4" x="11.05" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="size" class="cls-2" transform="translate(88.63 10.2)">Size<tspan class="cls-3"><tspan x="-9.34" y="12">α</tspan><tspan class="cls-4" x="-3.08" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><text id="foreigners" class="cls-2" transform="translate(145.8 154.7)">Foreigners<tspan class="cls-3"><tspan x="7.99" y="12">α</tspan><tspan class="cls-4" x="14.25" y="12" xml:space="preserve">  = 0.33</tspan></tspan></text><circle id="pointer" class="cls-5" cx="99.37" cy="98.2" r="4"/><text class="cls-6" transform="translate(85.54 23.45)">s</text><text class="cls-6" transform="translate(159.94 168.95) scale(1 0.83)">f</text><text class="cls-6" transform="translate(10.21 168.95) scale(0.85 1)">m</text></svg>
 
@@ -583,5 +583,210 @@
         });
     </script>
     {% endif %}
+
+    <h2>How Does It Work?</h2>
+    <p>It starts with the observation that there is a choice when assigning users to groups. That is, we have some control over the order of group assignments, i.e. at which day a user participates in a certain group. Since we must assign each user to every group exactly once, we have the following combinations per user (for a three day course):</p>
+
+    <object type="image/svg+xml" data="{{ url_for('static', filename='CombinationsTree.svg') }}"></object>
+
+    <p>In the beginning, we can assign the user to any of the three groups. After the first assignment, though, out choices are limited to only two groups on the second day (day 1). Finally, there is only one group left to be assigned for the user on the last day. In total, we have \(n_{\text{days}}! = 3! = 6\) choices for a single user. The same procedure repeats for every user and a choice for one user has a possible impact to the choices of all other users so that we have \(\left(n_{\text{days}}!\right)^{n_{\text{users}}}\) possible combinations to assign all the users to the groups over the days.</p>
+
+    <p>Every combination has its own characteristic regarding e.g. the number of meetings between the users. We just need to find the combination which meets our desires. It is best to be preciser about which combinations are good and which not so that we can compare them. Let \(A\) denote a matrix with one possible allocation from users to groups over days (one combination). For example, the following matrix defines an allocation for 6 users (columns) and three groups/days (rows)</p>
+
+    \begin{equation}
+    \label{eq:ExampleAllocation}
+        A =
+        \begin{pmatrix}
+            2 & 2 & 0 & 2 & 2 & 1 \\
+            1 & 0 & 2 & 0 & 1 & 0 \\
+            0 & 1 & 1 & 1 & 0 & 2
+        \end{pmatrix}.
+    \end{equation}
+
+    <p>This matrix serves also as a running example in the subsequent sections. To evaluate the allocation, we define the error function</p>
+
+    \begin{equation}
+    \label{eq:TotalError}
+        E(A) = \alpha_s \cdot E_s(A) + \alpha_m \cdot E_m(A) + \alpha_f \cdot E_f(A)
+    \end{equation}
+
+    <p>which takes three components into account: \(E_s\) for the group sizes, \(E_m\) for the number of meetings and \(E_f\) for a balance between foreigners and non-foreigners.</p>
+
+    <p>The weights \(\alpha_s, \alpha_m, \alpha_f \in [0;1]\) can be used to control the focus of the algorithm. For example, when it is desired to have more meetings at the cost of more imbalanced group sizes, \(\alpha_m > \alpha_s\) should be set. In total, the weights should sum up to 1, i.e.</p>
+
+    \begin{equation*}
+        \alpha_s + \alpha_m + \alpha_f = 1.
+    \end{equation*}
+
+    <p>In the following, the components of the error function are described in more detail.</p>
+
+    <h3>Group Sizes \(E_s\)</h3>
+    <p>Many allocations end up with very degenerated group sizes, e.g. when all users are assigned to the first group and the other groups remain empty. These allocations are not really applicable. It is often more desired to have the group sizes balanced for each group and all days. Therefore, we calculate a matrix \(C_s(A)\) with the group sizes per group and day and calculate the error as</p>
+
+    \begin{equation*}
+        E_s(A) = \operatorname{mean}\left(\left|\frac{C_s(A) - s^*}{s^*}\right|\right) + \operatorname{std}\left(\frac{C_s(A)}{s^*}\right).
+    \end{equation*}
+
+    <p>The first summand measures how close the group sizes are to the optimal group size \(s^*\)</p>
+
+    \begin{equation*}
+        s^* = \frac{n_{\text{users}}}{n_{\text{groups}}} = \frac{\textit{columns of A}}{\textit{rows of A}}
+    \end{equation*}
+
+    <p>which corresponds to (roughly) equally distributed groups. The second summand ensures that all group sizes are good (and not e.g. just one) by penalizing high variances of the counts.</p>
+
+    <p>Both parts are normalized by \(s^*\) to make this error function more comparable to the other error components of Equation \eqref{eq:TotalError}. Ideally, each function would be in the range \([0;1]\) so that we can easily interpret and manipulate them. However, this is not always true for \(E_s(A)\) (but it is for the others) since values \(>1\) may occur for highly imbalanced groups. This can also be an advantage, though, as it is in general desired to have equal group sizes and it is good to have a high penalty when this is not the case.</p>
+
+    <p>For our example allocation (Equation \eqref{eq:ExampleAllocation}), we have the following group sizes</p>
+
+    \begin{equation*}
+        C_s(A) =
+        \begin{pmatrix}
+            1 & 1 & 4 \\
+            3 & 2 & 1 \\
+            2 & 3 & 1
+        \end{pmatrix}
+    \end{equation*}
+
+    <p>with each row denoting a day and each column a group. For example, we have \((C_s(A))_{0,2} = 4\) because four members are in the group 2 on the day 0 (first row in \(A\)). Since the optimal group size is \(s^* = 6/3 = 2\), we get the error</p>
+
+    \begin{equation*}
+        E_s(A) \approx 0.44 + 0.56 = 1
+    \end{equation*}
+
+    <p>which is quite high but there is also room for improvement in the allocation.</p>
+
+    <h3>Meetings \(E_m\)</h3>
+    <p>The whole point of the algorithm is to find an allocation where more users meet than in the trivial allocation where the group members stay fixed. This aspect is covered by the error term \(E_m(A)\) which counts how many other users (including herself/himself) a participant meets. Let \(C_m(A)\) denote a vector which holds this information. Then, the error for the meetings is calculated as (\(n\) denotes the number of users)</p>
+
+    \begin{equation*}
+        E_m(A) = 1 - \operatorname{mean}\left( \frac{C_m(A)}{n} \right) + \operatorname{std}\left( \frac{C_m(A)}{n} \right).
+    \end{equation*}
+
+    <p>The summands have a similar meaning as before. Ideally, each participant meets all other users (average part) and the number of meetings should be roughly equal among the users (standard deviation part). The latter ensures that, for example, there is not only one user who meets nearly all and another who stays with the same people all the time. The counts \(C_m(A)\) are used to normalize the values and keep them roughly in the range \([0;1]\).</p>
+
+    <p>For the example of Equation \eqref{eq:ExampleAllocation}, we get the following meeting vector</p>
+
+    \begin{equation*}
+        C_m(A) =
+        \begin{pmatrix}
+            4 & 6 & 3 & 6 & 4 & 3
+        \end{pmatrix}
+    \end{equation*}
+
+    <p>with the meetings for each user. To find these values, we need to search \(A\) for users who have the same group index assigned as the current user. For example, the last user can only talk to the second and fourth user since they are in the same group on day 1 (they are all in group 0). On the other days, the user is alone (there are no other users in the group 1 or 2 for the first and last day, respectively). This leads to the error</p>
+
+    \begin{equation*}
+        E_m(A) \approx 0.28 + 0.23 = 0.51.
+    \end{equation*}
+
+    <h3>Foreigners \(E_f\)</h3>
+    <p>In case you submitted a <code>Foreigner</code> attribute to the algorithm, there is another aspect to consider. This is relevant when there is a mixed group of non-foreigners and foreigners and the goal is that each group should consist of both. This is taken care of by the error term \(E_f(A)\). For each group and day, it calculates the vector \(\boldsymbol{p} = (p_f, p_{\bar{f}})\) with the probabilities \(p_f\) and \(p_{\bar{f}}\) for the ratio of foreigners and non-foreigners, respectively. Then, the entropy</p>
+
+    \begin{equation}
+    \label{eq:EntropyVector}
+        s(\boldsymbol{p}) = p_f \cdot \log_2\left( \frac{1}{p_f} \right) + p_{\bar{f}} \cdot \log_2\left( \frac{1}{p_{\bar{f}}} \right)
+    \end{equation}
+
+    <p>measures how well these two types of users are represented in each group. Since \(\boldsymbol{p}\) is a valid probability vector with its components summing up to 1, it is sufficient when we know one component as we can infer the second one, e.g. \((p_f, p_{\bar{f}}) = (p_f, 1-p_f)\). In this case, Equation \eqref{eq:EntropyVector} simplifies to</p>
+
+    \begin{equation}
+    \label{eq:Entropy}
+        s(p_f) = p_f \cdot \log_2\left( \frac{1}{p_f} \right) + (1-p_f) \cdot \log_2\left( \frac{1}{1-p_f} \right)
+    \end{equation}
+
+    <p>and this function depends only on the fraction of foreigners \(p_f\) in the group. What is more, it is now easily possible to plot Equation \eqref{eq:Entropy} as a function of \(p_f\) and see which entropy values we get for a certain fraction of foreigners in our group:</p>
+
+    <div id="entropy_plot"></div>
+    <script>
+        // Generate the data for the entropy function
+        let data = [{
+            x: 0,
+            y: 0
+        }];
+
+        const step = 0.01;
+        for (let p = step; p < 1; p += step) {
+            data.push({
+                x: p,
+                y: -p * Math.log2(p) - (1-p) * Math.log2(1-p)
+            });
+        }
+
+        data.push({
+            x: 1,
+            y: 0
+        });
+
+        Highcharts.chart('entropy_plot', {
+            chart: {
+                type: 'spline',
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Entropy impurity measure'
+            },
+            xAxis: {
+                gridLineWidth: 1,
+                title: {
+                    useHTML: true,
+                    text: '\\(p_f\\)'
+                }
+            },
+            yAxis: {
+                title: {
+                    useHTML: true,
+                    text: '\\(s(p_f)\\)'
+                }
+            },
+            tooltip: {
+                crosshairs: true
+            },
+            series: [{
+                name: 'Entropy',
+                data: data
+            }]
+        });
+    </script>
+
+    <p>As we can see, the maximum is at \(s((0.5, 0.5)) = 1\) and the minimum at \(s((1, 0)) = s(0, 1) = 0\), i.e. completely equally distributed vs. groups which consist only of one type. Values in-between these two extrema change continuously. This makes it a perfect tool for our error term \(E_f(A)\) which we can now define as</p>
+
+    \begin{equation*}
+        E_f(A) = \operatorname{mean}(1 - S(A)) + \operatorname{std}(1 - S(A)).
+    \end{equation*}
+
+    <p>\(S(A)\) denotes the matrix with the entropy values \(s\) per group and day. Note that the entropies \(S\) are inverted so that we get a low value for a good distribution. The summands have a similar meaning as before.</p>
+
+    <p>To calculate the error \(E_f(A)\) for our example allocation (Equation \eqref{eq:ExampleAllocation}), we need information about the foreigner state for each user. Let's assume that the first three users are foreigners and the last three non-foreigners. In this case, we get the following entropy matrix</p>
+
+    \begin{equation*}
+        S(A) \approx
+        \begin{pmatrix}
+            0 & 0 & 1 \\
+            0.92 & 1 & 0 \\
+            1 & 0.92 & 0
+        \end{pmatrix}
+    \end{equation*}
+
+    <p>Let's go through the details for the first group on the second day \((S(A))_{1,0}\). On that day, group 0 has three users (second, fourth and sixt). The second user is a foreigner and the other two are non-foreigners, so we get for our probability vector</p>
+
+    \begin{equation*}
+        \boldsymbol{p} =
+        \begin{pmatrix}
+            1/3 \\
+            2/3
+        \end{pmatrix}.
+    \end{equation*}
+
+    <p>The rest is just plugging into the formulas. In the end, we get an error of</p>
+
+    \begin{equation*}
+        E_f(A) \approx 0.46 + 0.51 = 0.97.
+    \end{equation*}
+
+    <h3>Optimization</h3>
+    <p>We now have everything to evaluate whether an allocation \(A\) is good or not; at least according to the error \(E(A)\). But how do we find a good allocation? A naive approach would be to test every combination and take simply the best. However, we have \(\left(n_{\text{days}}!\right)^{n_{\text{users}}}\) combinations to test in total! That is exponential growth over factorial growth here, i.e. intractable in practice for larger values of \(n_{\text{days}}\) or \(n_{\text{users}}\). So, we need a different approach...</p>
+
+    <p>Simply put, the idea is to test different allocations \(A\) randomly and select the one with the lowest error \(E(A)\). We start with a random allocation \(A_0\) and then select one user (also randomly) and try to change her or his assignment over the days. This results in a temporary allocation \(A_{\operatorname{tmp}}\) and when the error decreases, i.e. \(E(A_{\operatorname{tmp}}) &lt; E(A_0)\), we keep the allocation (\(A_1 = A_{\operatorname{tmp}}\)). If the error increases, \(A_{\operatorname{tmp}}\) is discarded. After permuting every assignment of the current user, we randomly select another user and repeat the process. We keep on with this procedure for a certain amount of time and hopefully get a good allocation \(A_*\) at the end.</p>
 </body>
 </html>

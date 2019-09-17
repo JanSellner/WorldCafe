@@ -17,7 +17,8 @@ body > p,
 body > form,
 body > ul,
 body > span,
-body > mjx-container {
+body > mjx-container,
+body > object {
     max-width: 600px !important;
 }
 
@@ -143,6 +144,9 @@ summary {
 .normal {
     font-weight: normal;
 }
+object {
+    margin-bottom: 1rem;
+}
 #stats {
     display: flex;
     flex-flow: row wrap;
@@ -159,13 +163,16 @@ summary {
 span.tooltip_heading {
     font-size: 1.1rem;
 }
-#pointer {
-    cursor: move;
+#entropy_plot {
+    max-width: 500px;
 }
-form svg {
+#parameter_selection {
     display: block;
     max-width: 350px;
     margin: 0 auto 1rem auto;
+}
+#pointer {
+    cursor: move;
 }
 input.alphas {
     display: none;
