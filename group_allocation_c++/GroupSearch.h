@@ -65,7 +65,7 @@ public:
 		pe.parallel_for(0, static_cast<size_t>(n_seeds) - 1, [&](const size_t seed)
 		{
 			std::mt19937_64 generator(seed);
-			const std::uniform_int_distribution<> user_generator(0, static_cast<int>(days_init.columns - 1));
+			std::uniform_int_distribution<> user_generator(0, static_cast<int>(days_init.columns - 1));
 
 			Matrix<int> days(days_init);
 			if (seed > 0)
@@ -116,7 +116,7 @@ private:
 	void random_shuffle(Matrix<int>& days, const size_t seed) const
 	{
 		std::mt19937_64 generator(seed);
-		const std::uniform_int_distribution<> row_generator(0, static_cast<int>(days.rows - 1));
+		std::uniform_int_distribution<> row_generator(0, static_cast<int>(days.rows - 1));
 
 		for (size_t i = 0; i < days.data.size(); ++i)
 		{
