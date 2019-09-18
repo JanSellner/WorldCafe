@@ -1,9 +1,9 @@
 version: "2.1"
 services:
-  group:
+  group_allocation:
     build: .
-    image: group-i
-    container_name: group
+    image: group_allocation
+    container_name: group_allocation
     ports:
       - "5000:5000"
     tty: true
