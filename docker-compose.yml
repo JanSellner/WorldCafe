@@ -1,0 +1,10 @@
+version: "2.1"
+services:
+  group:
+    build: .
+    image: group-i
+    container_name: group
+    ports:
+      - "5000:5000"
+    tty: true
+    stdin_open: true
