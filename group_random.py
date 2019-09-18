@@ -40,6 +40,3 @@ if __name__ == '__main__':
 #
 #     print(meets)
 #     print(days)
-
-# TODO: error messages code duplication --> maybe file with all common strings
-# TODO: test both implementations are the same
