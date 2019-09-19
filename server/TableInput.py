@@ -39,7 +39,6 @@ class TableInput:
                 alphas[0] /= alphas_total
                 alphas[1] /= alphas_total
 
-                print('test')
                 self.messages['notes'].append(fr'The weights were rescaled to \(\alpha_s = {alphas[0]:.2}\) and \(\alpha_m = {alphas[1]:.2}\) since they had not summed up to 1.')
 
         self.alphas = alphas
@@ -68,7 +67,6 @@ class TableInput:
                         listener(progress)
                 except ValueError:
                     try:
-                        print(line)
                         # The last line contains the result of the algorithm
                         self.alloc = np.asarray(json.loads(line))
                     except json.JSONDecodeError as error:
