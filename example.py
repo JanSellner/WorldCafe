@@ -2,6 +2,7 @@ import numpy as np
 
 from group_allocation_python.GroupEvaluation import GroupEvaluation
 
+# Groups are index-based
 alloc = np.array([[2, 2, 0, 2, 2, 1],
                   [1, 0, 2, 0, 1, 0],
                   [0, 1, 1, 1, 0, 2]])

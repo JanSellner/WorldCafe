@@ -20,7 +20,7 @@ class GroupSearch:
     def __init__(self, n_groups: int, n_users: int, foreigners=None, alphas=None):
         assert n_groups <= 8, 'The number of groups should not be too high as otherwise the algorithm takes too long.'
 
-        self.groups = np.arange(n_groups)
+        self.groups = np.arange(n_groups)  # The groups are index-based since this simplifies the implementation (counting)
         self.n_users = n_users
 
         self.n_seeds = 24  # 24 might be a good choice because it has many divisors so that the number of seeds are likely to be divisible by the cpu number

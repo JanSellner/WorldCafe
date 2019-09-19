@@ -592,7 +592,7 @@
 
     <object type="image/svg+xml" data="{{ url_for('static', filename='CombinationsTree.svg') }}"></object>
 
-    <p>In the beginning, we can assign the user to any of the three groups. After the first assignment, though, out choices are limited to only two groups on the second day (day 1). Finally, there is only one group left to be assigned for the user on the last day. In total, we have \(n_{\text{days}}! = 3! = 6\) choices for a single user. The same procedure repeats for every user and a choice for one user has a possible impact to the choices of all other users so that we have \(\left(n_{\text{days}}!\right)^{n_{\text{users}}}\) possible combinations to assign all the users to the groups over the days.</p>
+    <p>In the beginning, we can assign the user to any of the three groups. After the first assignment, though, out choices are limited to only two groups on the second day. Finally, there is only one group left to be assigned for the user on the last day. In total, we have \(n_{\text{days}}! = 3! = 6\) choices for a single user. The same procedure repeats for every user and a choice for one user has a possible impact to the choices of all other users so that we have \(\left(n_{\text{days}}!\right)^{n_{\text{users}}}\) possible combinations to assign all the users to the groups over the days.</p>
 
     <p>Every combination has its own characteristic regarding e.g. the number of meetings between the users. We just need to find the combination which meets our desires. It is best to be preciser about which combinations are good and which not so that we can compare them. Let \(A\) denote a matrix with one possible allocation from users to groups over days (one combination). For example, the following matrix defines an allocation for 6 users (columns) and three groups/days (rows)</p>
 
@@ -600,9 +600,9 @@
     \label{eq:ExampleAllocation}
         A =
         \begin{pmatrix}
-            2 & 2 & 0 & 2 & 2 & 1 \\
-            1 & 0 & 2 & 0 & 1 & 0 \\
-            0 & 1 & 1 & 1 & 0 & 2
+            3 & 3 & 1 & 3 & 3 & 2 \\
+            2 & 1 & 3 & 1 & 2 & 1 \\
+            1 & 2 & 2 & 2 & 1 & 3
         \end{pmatrix}.
     \end{equation}
 
@@ -651,7 +651,7 @@
         \end{pmatrix}
     \end{equation*}
 
-    <p>with each row denoting a day and each column a group. For example, we have \((C_s(A))_{0,2} = 4\) because four members are in the group 2 on the day 0 (first row in \(A\)). Since the optimal group size is \(s^* = 6/3 = 2\), we get the error</p>
+    <p>with each row denoting a day and each column a group. For example, we have \((C_s(A))_{0,2} = 4\) because four members are in the third group on the first day (first row in \(A\)). Since the optimal group size is \(s^* = 6/3 = 2\), we get the error</p>
 
     \begin{equation*}
         E_s(A) \approx 0.44 + 0.56 = 1
@@ -677,7 +677,7 @@
         \end{pmatrix}
     \end{equation*}
 
-    <p>with the meetings for each user. To find these values, we need to search \(A\) for users who have the same group index assigned as the current user. For example, the last user can only talk to the second and fourth user since they are in the same group on day 1 (they are all in group 0). On the other days, the user is alone (there are no other users in the group 1 or 2 for the first and last day, respectively). This leads to the error</p>
+    <p>with the meetings for each user. To find these values, we need to search \(A\) for users who are in the same group as the the current user. For example, the last user can only talk to the second and fourth user since they are in the same group on the second day (they are all in group 1). On the other days, the user is alone (there are no other users in the second or third group on the first and last day, respectively). This leads to the error</p>
 
     \begin{equation*}
         E_m(A) \approx 0.28 + 0.23 = 0.51.
@@ -771,7 +771,7 @@
         \end{pmatrix}
     \end{equation*}
 
-    <p>Let's go through the details for the first group on the second day \((S(A))_{1,0}\). On that day, group 0 has three users (second, fourth and sixt). The second user is a foreigner and the other two are non-foreigners, so we get for our probability vector</p>
+    <p>Let's go through the details for the first group on the second day \((S(A))_{1,0}\). On that day, the first group has three users (second, fourth and sixth). The second user is a foreigner and the other two are non-foreigners, so we get for our probability vector</p>
 
     \begin{equation*}
         \boldsymbol{p} =
