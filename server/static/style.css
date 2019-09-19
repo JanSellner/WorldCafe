@@ -177,3 +177,14 @@ span.tooltip_heading {
 input.alphas {
     display: none;
 }
+#github_logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 149px;
+    height: 149px;
+    background-image: url("forkme_right_white_ffffff.png");
+}
+#github_logo:hover {
+    background-image: url("forkme_right_gray_6d6d6d.png");
+}
