@@ -1,8 +1,7 @@
-#define PRINT_NO_PROGRESS
-
 #include <iostream>
 #include <vector>
 #include "../Matrix.h"
+#define PRINT_NO_PROGRESS
 #include "../GroupSearch.h"
 
 

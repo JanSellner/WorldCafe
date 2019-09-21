@@ -27,8 +27,7 @@ alloc = np.array([
 
 foreigners = np.array([0, 0, 1, 1, 0, 1, 1, 1, 0, 1])
 
-gval = GroupEvaluation(np.unique(alloc), 10, foreigners)
-gval.error_total(alloc)
+gval = GroupEvaluation(np.unique(alloc), alloc.shape[1], foreigners)
 
 with MeasureTime():
     for _ in range(200000):
