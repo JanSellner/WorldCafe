@@ -3,7 +3,7 @@ import itertools
 import numpy as np
 from group_allocation_python.GroupEvaluation import GroupEvaluation
 from multiprocessing import Pool, cpu_count
-from MeasureTime import MeasureTime
+from misc.MeasureTime import MeasureTime
 
 
 def run(combs):

@@ -1,7 +1,6 @@
 import numpy as np
 
-from MeasureTime import MeasureTime
-from group_allocation_python.GroupSearch import GroupSearch
+from misc.MeasureTime import MeasureTime
 from group_allocation_python.GroupEvaluation import GroupEvaluation
 
 # if __name__ == '__main__':

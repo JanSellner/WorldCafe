@@ -8,7 +8,7 @@ import pandas as pd
 
 from group_allocation_python.GroupEvaluation import GroupEvaluation
 from group_allocation_python.GroupSearch import GroupSearch
-from JSONNumpyEncoder import JSONNumpyEncoder
+from server.JSONNumpyEncoder import JSONNumpyEncoder
 from server import UserError, ServerError
 
 
