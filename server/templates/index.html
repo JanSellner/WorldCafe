@@ -96,6 +96,48 @@
                     <span class="error">{{ error }}</span>
                 {% endfor %}
                 <br />
+                <script>
+                    // Goal: Keep the uploaded file in the form element even after a page refresh (e.g. due to form submission)
+                    // This is done by manually storing the file in the session storage and loading it after the page refresh
+                    // The session storage is unique for each tab and gets automatically deleted when the tab is closed (https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+                    document.getElementById('file').addEventListener('input', function (event) {
+                        const file = event.target.files[0];
+
+                        // Relevant information about the file required for reconstructions
+                        let sessionFile = {
+                           lastModified: file.lastModified,
+                           name: file.name,
+                           type: file.type
+                        };
+
+                        let fileReader = new FileReader();
+                        fileReader.onload = function (event) {
+                            sessionFile.content = event.target.result;
+
+                            // We can only store strings in the session storage
+                            sessionStorage.setItem('file', JSON.stringify(sessionFile));
+                        };
+                        fileReader.readAsText(file);
+                    });
+
+                    let sessionFile = sessionStorage.getItem('file');
+                    if (sessionFile !== null) {
+                        sessionFile = JSON.parse(sessionFile);
+
+                        // Construct a new file object based on the stored information
+                        const newFile = new File([sessionFile.content], sessionFile.name, {
+                            type: sessionFile.type,
+                            lastModified: sessionFile.lastModified
+                        });
+
+                        // Create a new FileList object (https://stackoverflow.com/a/56447852)
+                        let fileList = new DataTransfer();
+                        fileList.items.add(newFile);
+
+                        // Overwrite the input element (this has a visible effect for the user)
+                        document.getElementById('file').files = fileList.files;
+                    }
+                </script>
             </div>
         </div>
 
