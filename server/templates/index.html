@@ -141,7 +141,18 @@
             </div>
         </div>
 
-        <details>
+        <details id="advanced">
+            <script>
+                // Store the state of the advanced details section in the current session so that there is no need for the user to re-open the section even after a page refresh
+                document.getElementById('advanced').addEventListener('toggle', function (event) {
+                    sessionStorage.setItem('advanced', JSON.stringify(event.target.open));
+                });
+
+                const sessionAdvanced = sessionStorage.getItem('advanced');
+                if (sessionAdvanced !== null) {
+                    document.getElementById('advanced').open = JSON.parse(sessionAdvanced);
+                }
+            </script>
             <summary>Advanced: <span class="normal">specify the \(\alpha\) weights manually</span></summary>
 
             <p>It is possible to exercise some control over the execution of the algorithm by explicitly specifying the \(\alpha\) weights for the error function. This allows shifting the focus on different aspects of the optimization. For example, it is sometimes possible to increase the average number of meetings of the users while approving less consistent group sizes. The focus can be adjusted by moving the red circle inside the triangle below. With increasing weight value, higher importance is given to the corresponding part of the error function. This means that this part is preferred in the optimization process yielding lower error values. For example, when \(\alpha_s\) increases, usually \(E_s\) decreases resulting in better group sizes.</p>
