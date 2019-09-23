@@ -3,7 +3,7 @@ Find a group allocation to assign users to groups over multiple days. This is id
 
 # Getting Started
 - Build and run the dockerfile via `docker-compose up --build`
-   - Alternatively, use the [pre-built image](https://cloud.docker.com/repository/docker/milania/group_allocation) from DockerHub: `docker run -it -p 5000:5000 milania/group_allocation`
+   - Alternatively, use the [pre-built image](https://hub.docker.com/r/milania/group_allocation) from DockerHub: `docker run -it -p 5000:5000 milania/group_allocation`
 - Navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 # Development
