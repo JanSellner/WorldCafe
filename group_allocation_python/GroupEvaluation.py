@@ -13,7 +13,7 @@ class GroupEvaluation:
         else:
             self.alphas = alphas
             assert 2 <= len(self.alphas) <= 3, 'Each error component must have a corresponding alpha weight.'
-            assert np.isclose(sum(self.alphas), 1), 'The alpha weights need to sum up to 1.'
+            assert np.isclose(sum(self.alphas), 1, rtol=1.e-3), 'The alpha weights need to sum up to 1.'
 
         self.foreigners = foreigners
         if self.foreigners is None:

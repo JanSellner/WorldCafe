@@ -401,9 +401,16 @@
                     // Calculate barycentric coordinates (weighted sum of the triangle points)
                     const diffX = newPoint.x - points[2].x;
                     const diffY = newPoint.y - points[2].y;
-                    const alpha1 = clamp(Tinv[0][0] * diffX + Tinv[0][1] * diffY, 0, 1);
-                    const alpha2 = clamp(Tinv[1][0] * diffX + Tinv[1][1] * diffY, 0, 1);
-                    const alpha3 = clamp(1 - alpha1 - alpha2, 0, 1);
+                    let alpha1 = clamp(Tinv[0][0] * diffX + Tinv[0][1] * diffY, 0, 1);
+                    let alpha2 = clamp(Tinv[1][0] * diffX + Tinv[1][1] * diffY, 0, 1);
+                    let alpha3 = clamp(1 - alpha1 - alpha2, 0, 1);
+
+                    // It is possible that the values don't sum exactly up to 1 (maybe due to numeric instabilities)
+                    // As a countermeasure, the values are rescaled
+                    const sum = alpha1 + alpha2 + alpha3;
+                    alpha1 /= sum;
+                    alpha2 /= sum;
+                    alpha3 /= sum;
 
                     setAlphasText(alpha1, alpha2, alpha3);
 

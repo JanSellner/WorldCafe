@@ -21,7 +21,7 @@ class TableInput:
         if len(self.df) < n_groups:
             raise UserError('There are not enough users available to fill the groups.')
 
-        if not np.isclose(sum(alphas), 1):
+        if not np.isclose(sum(alphas), 1, rtol=1.e-3):
             raise UserError('The alpha weights need to sum up to 1.')
 
         if 'Foreigner' in self.df:

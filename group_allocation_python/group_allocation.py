@@ -40,7 +40,7 @@ if __name__ == '__main__':
         except json.JSONDecodeError:
             sys.exit('Could not parse the alpha weights. Please provide a valid JSON array.')
 
-        if not np.isclose(sum(alphas), 1):
+        if not np.isclose(sum(alphas), 1, rtol=1.e-3):
             sys.exit('The alpha weights need to sum up to 1.')
 
         if foreigners is None and len(alphas) != 2:
