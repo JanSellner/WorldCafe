@@ -37,10 +37,7 @@
         socket.on('update_progress', function (data) {
             const progress = document.getElementById('progress');
             progress.setAttribute('value', data['progress']);
-            progress.setAttribute('title', 
-                                  
-                                  
-                                  format(".1f")(data['progress'] * 100) + ' %');
+            progress.setAttribute('title', d3.format(".1f")(data['progress'] * 100) + ' %');
 
             if (data['remaining_time'] !== null) {
                 const minutes = Math.floor(data['remaining_time'] / 60);
