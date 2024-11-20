@@ -19,4 +19,4 @@ class InputDataForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         # csrf protection is disabled since this would require a session cookie
-        super(InputDataForm, self).__init__(meta={'csrf': False}, *args, **kwargs)
+        super().__init__(meta={'csrf': False}, *args, **kwargs)

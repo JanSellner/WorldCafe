@@ -167,8 +167,8 @@ class TableInput:
 
             for others in gval.others:
                 _, counts = np.unique(self.foreigners[list(others)], return_counts=True)
-                member_stats['meets_non-foreigners'].append(counts[0])
-                member_stats['meets_foreigners'].append(counts[1])
+                member_stats['meets_non-foreigners'].append(counts[0].item())
+                member_stats['meets_foreigners'].append(counts[1].item())
 
             _, counts = np.unique(self.foreigners, return_counts=True)
 
