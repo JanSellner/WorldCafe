@@ -139,7 +139,7 @@ class TableInput:
             'error': round(gval.error_total(self.alloc), 2),
             'groups': {
                 'sizes': group_sizes,
-                'sizes_mean': np.round(np.mean(gval.counts), 2)
+                'sizes_mean': np.round(np.mean(gval.counts), 2).item()
             }
         }
 
@@ -157,7 +157,7 @@ class TableInput:
         member_stats = {
             'names': names,
             'meets_others': meets_others,
-            'meets_others_mean': np.round(np.mean(meets_others), 2)
+            'meets_others_mean': np.round(np.mean(meets_others), 2).item(),
         }
 
         if self.foreigners is not None:

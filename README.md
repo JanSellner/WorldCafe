@@ -1,8 +1,8 @@
-# GroupAllocation
+# World Café
 Find a group allocation to assign users to groups over multiple days. This is ideal for a course programme where users are split into several groups and then one group is assigned to a lecturer per day. However, instead of using fixed groups, this tool finds a better allocation with the goal to increase the number of meetings between the users. More details can be found on the webpage (after starting the server, see next section).
 
 ## Getting Started
-- Build and run the dockerfile via `docker-compose up --build`
+- Build and run the dockerfile via `docker compose up --build`
    - Alternatively, use the [pre-built image](https://hub.docker.com/r/milania/group_allocation) from DockerHub: `docker run -it -p 5000:5000 milania/group_allocation`
 - Navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
