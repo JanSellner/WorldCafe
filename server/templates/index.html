@@ -50,7 +50,7 @@
 <body>
     <a id="github_logo" href="https://github.com/JanSellner/WorldCafe" target="_blank" rel="noopener noreferrer" title="Fork me on GitHub"></a>
     <h1>World Café (Group Allocation)</h1>
-    <p>Have you ever been in the situation where you had to calculate an allocation of users to groups across several days with changing groups per day? Then, you are on the right page. If you already know the problem, go directly to the <a href="#sec:input">input section</a> and specify your situation. If not, keep on reading...</p>
+    <p>Have you ever been in the situation where you had to calculate an allocation of users to groups across several days with changing groups per day? For example, in a <a href="https://en.wikipedia.org/wiki/World_caf%C3%A9_(conversation)" target="_blank">world café</a> setting with the days corresponding to the tables? Then, you are on the right page. If you already know the problem, go directly to the <a href="#sec:input">input section</a> and specify your situation. If not, keep on reading...</p>
 
     <p>To understand the problem, suppose we have 30 users and three events A, B and C happening per day with a total time budget of three days. We split the users into three groups à 10 people (group I, II and III) and assign each group to an event. So, for the first day, we may end up with the allocation A-I, B-II and C-III. On the second day, we assign the groups to different events, e.g. A-II, B-III, C-I (this leaves A-III, B-I, and C-II for the last day). In the end, each user participated in each event exactly once.</p>
 
@@ -854,5 +854,8 @@
     <p>We now have everything to evaluate whether an allocation \(A\) is good or not; at least according to the error \(E(A)\). But how do we find a good allocation? A naive approach would be to test every combination and take simply the best. However, we have \(\left(n_{\text{days}}!\right)^{n_{\text{users}}}\) combinations to test in total! That is exponential growth over factorial growth here, i.e. intractable in practice for larger values of \(n_{\text{days}}\) or \(n_{\text{users}}\). So, we need a different approach...</p>
 
     <p>Simply put, the idea is to test different allocations \(A\) randomly and select the one with the lowest error \(E(A)\). We start with a random allocation \(A_0\) and then select one user (also randomly) and try to change her or his assignment over the days. This results in a temporary allocation \(A_{\operatorname{tmp}}\) and when the error decreases, i.e. \(E(A_{\operatorname{tmp}}) &lt; E(A_0)\), we keep the allocation (\(A_1 = A_{\operatorname{tmp}}\)). If the error increases, \(A_{\operatorname{tmp}}\) is discarded. After permuting every assignment of the current user, we randomly select another user and repeat the process. We keep on with this procedure for a certain amount of time and hopefully get a good allocation \(A_*\) at the end.</p>
+    <hr />
+    <p><small>Data protection (GDPR): The data submitted by the user to this tool is only used to calculate the group allocation and is not stored further.<br />
+    Hosting information: {{ hosting_information }}</small></p>
 </body>
 </html>

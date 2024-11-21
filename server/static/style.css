@@ -160,6 +160,12 @@ object {
     height: 500px;
     flex-grow: 1;
 }
+hr {
+    max-width: 600px;
+}
+small {
+    font-size: 0.75em;
+}
 span.tooltip_heading {
     font-size: 1.1rem;
 }

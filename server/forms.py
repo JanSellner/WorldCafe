@@ -6,7 +6,7 @@ from wtforms.widgets import NumberInput
 
 
 class InputDataForm(FlaskForm):
-    n_groups = IntegerField('Number of groups/days', validators=[InputRequired()], widget=NumberInput(min=2, max=8), default=3)
+    n_groups = IntegerField('Number of groups/days/tables', validators=[InputRequired()], widget=NumberInput(min=2, max=8), default=3)
     selection_type = RadioField('Selection type', choices=[('text', 'Specify users manually'), ('file', 'Upload a file')], validators=[InputRequired()], default='text')
     users = TextAreaField('Users', description='One name per line.')
     file = FileField('File', validators=[FileAllowed(['csv'])], description='CSV file')

@@ -1,4 +1,5 @@
 import base64
+import os
 import re
 from io import StringIO
 from timeit import default_timer
@@ -76,6 +77,8 @@ def test_disconnect():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = InputDataForm(CombinedMultiDict((request.files, request.form)))
+    hosting_information = os.getenv('HOSTING_INFORMATION', 'No hosting information provided (this instance may be self-hosted).')
+
     try:
         if form.validate_on_submit():
             if form.selection_type.data == 'text':
@@ -121,11 +124,11 @@ def index():
 
             form.progress_bar = 1
 
-            return render_template('index.html', form=form, table=table_data, stats=table_input.stats(), csv_data=csv_base64, messages=messages)
+            return render_template('index.html', form=form, table=table_data, stats=table_input.stats(), csv_data=csv_base64, messages=messages, hosting_information=hosting_information)
         else:
-            return render_template('index.html', form=form)
+            return render_template('index.html', form=form, hosting_information=hosting_information)
     except UserError as error:
-        return render_template('index.html', form=form, error=str(error))
+        return render_template('index.html', form=form, error=str(error), hosting_information=hosting_information)
     except ServerError as error:
         print(error)
-        return render_template('index.html', form=form, error=f'An internal server error occurred. Please report this problem to the developers (code {error.code}).')
+        return render_template('index.html', form=form, error=f'An internal server error occurred. Please report this problem to the developers (code {error.code}).', hosting_information=hosting_information)
