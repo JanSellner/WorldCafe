@@ -10,8 +10,9 @@ Have you ever had to organize a [world café](https://en.wikipedia.org/wiki/Worl
 Below you find more information on how to host the tool yourself and some information for developers.
 
 ## Getting Started
-- Build and run the dockerfile via `docker compose up --build`
-   - Alternatively, use the [pre-built image](https://hub.docker.com/r/milania/group_allocation) from DockerHub: `docker run -it -p 5000:5000 milania/group_allocation`
+- You have two options to run the webserver:
+   1. Run the webserver in debug mode: clone this repository, build and run the dockerfile via `docker compose up --build`
+   2. Run the webserver in production mode: use the [pre-built image](https://hub.docker.com/r/milania/group_allocation) from DockerHub: `docker run -it -p 5000:5000 milania/group_allocation`
 - Navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ## Development
