@@ -1,5 +1,13 @@
-# World Café
-Find a group allocation to assign users to groups over multiple days. This is ideal for a course programme where users are split into several groups and then one group is assigned to a lecturer per day. However, instead of using fixed groups, this tool finds a better allocation with the goal to increase the number of meetings between the users. More details can be found on the webpage (after starting the server, see next section).
+# World Café (Group Allocation)
+<div align="center">
+   <a href="misc/example_run.png"><img src="misc/example_run.png" alt="example run" width="600"/></a>
+</div>
+
+Have you ever had to organize a [world café](https://en.wikipedia.org/wiki/World_caf%C3%A9_(conversation)) but you struggled how to best split people across the tables while avoiding that always the same people talk to each other? This tool solves these kind of problems where you need to split people to groups with exchanges across tables or days. For example, you can use it to design a multi-day course programme where users are split into several groups and then one group is assigned to a lecturer per day. However, instead of using fixed groups, this tool finds a better allocation with the goal to increase the number of meetings between the users. More details can be found on the webpage for the tool.
+
+[★ Demo ★](https://world-cafe.jansellner.net)
+
+Below you find more information on how to host the tool yourself and some information for developers.
 
 ## Getting Started
 - Build and run the dockerfile via `docker compose up --build`
@@ -19,6 +27,6 @@ In this case, it returns an allocation for 6 users who participate in a three-da
 To make changes to the program, just open the corresponding Visual Studio 2019 solution file (there are no further dependencies).
 
 ### Server
-A small UI is built around the command line program in the form of a web interface. It provides a visualization of the program output (e.g. distribution of user meetings) and allows to export the result as a CSV table.
+A small UI is built around the command line program in the form of a simple web app. It provides a visualization of the program output (e.g. distribution of user meetings) and allows to export the result as a CSV table.
 
-The server is written in [Flask](https://palletsprojects.com/p/flask/) and can be started by running the `run_server.py` file. The dependencies can be installed via `pip install -r requirements.txt` and a PyCharm project exists which can be used.
+The server is written in [Flask](https://palletsprojects.com/p/flask/) and can be started by running the `run_server.py` file. The dependencies can be installed via `pip install -r requirements.txt`.
