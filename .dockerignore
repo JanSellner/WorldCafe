@@ -584,3 +584,6 @@ site
 
 # Ionide (cross platform F# VS Code tools) working folder
 **/.ionide/
+
+# Own
+**/*.user.*
