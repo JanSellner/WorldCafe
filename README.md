@@ -30,4 +30,4 @@ To make changes to the program, just open the corresponding Visual Studio 2019 s
 ### Server
 A small UI is built around the command line program in the form of a simple web app. It provides a visualization of the program output (e.g. distribution of user meetings) and allows to export the result as a CSV table.
 
-The server is written in [Flask](https://palletsprojects.com/p/flask/) and can be started by running the `run_server.py` file. The dependencies can be installed via `pip install -r requirements.txt`. Set the environment variable `HOSTING_INFORMATION` to add custom hosting information to the end of the webpage.
+The server is written in [Flask](https://palletsprojects.com/p/flask/) and can be started by running the `run_server.py` file. The dependencies can be installed via `pip install -r requirements.txt`. Set the environment variable `HOSTING_INFORMATION` to add custom hosting information to the end of the webpage (HTML markup is supported).

@@ -194,3 +194,6 @@ input.alphas {
 #github_logo:hover {
     background-image: url("forkme_right_gray_6d6d6d.png");
 }
+code {
+    font-size: 1em;
+}

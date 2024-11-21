@@ -856,6 +856,6 @@
     <p>Simply put, the idea is to test different allocations \(A\) randomly and select the one with the lowest error \(E(A)\). We start with a random allocation \(A_0\) and then select one user (also randomly) and try to change her or his assignment over the days. This results in a temporary allocation \(A_{\operatorname{tmp}}\) and when the error decreases, i.e. \(E(A_{\operatorname{tmp}}) &lt; E(A_0)\), we keep the allocation (\(A_1 = A_{\operatorname{tmp}}\)). If the error increases, \(A_{\operatorname{tmp}}\) is discarded. After permuting every assignment of the current user, we randomly select another user and repeat the process. We keep on with this procedure for a certain amount of time and hopefully get a good allocation \(A_*\) at the end.</p>
     <hr />
     <p><small>Data protection (GDPR): The data submitted by the user to this tool is only used to calculate the group allocation and is not stored further.<br />
-    Hosting information: {{ hosting_information }}</small></p>
+    Hosting information: {{ hosting_information | safe }}</small></p>
 </body>
 </html>
